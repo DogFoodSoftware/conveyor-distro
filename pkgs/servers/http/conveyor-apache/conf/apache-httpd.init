@@ -1,0 +1,77 @@
+#!/bin/sh
+
+#the all requirement is bogus, but all takes precedence over
+#everything else, and since SuSEfirewall2_setup requires all, it's
+#always last; we squeeze by, however, since alphebetically this script
+#is second (when linked in /etc/init.d with 'Z_' prefixed).
+
+### BEGIN INIT INFO
+# Provides:		apache-kibbles
+# Required-Start: $network
+# Should-Start:		
+# Required-Stop:
+# Default-Start:	3 5
+# Default-Stop:
+# Description:		Starts apache via kibbles.
+### END INIT INFO
+
+# Return values acc. to LSB for all commands but status:
+# 0 - success
+# 1 - generic or unspecified error
+# 2 - invalid or excess argument(s)
+# 3 - unimplemented feature (e.g. "reload")
+# 4 - insufficient privilege
+# 5 - program is not installed
+# 6 - program is not configured
+# 7 - program is not running
+
+MANAGE_BASE=/home/user/playground/dogfoodsoftware.com/third-party/apache-httpd/bin/apache-httpd-
+IPTABLES=/usr/sbin/iptables
+ACCEPT_PORTS="80 443 42069 42070"
+
+function check() {
+    local SUFFIX="$1"; shift
+    local CTL_SCRIPT="${MANAGE_BASE}${SUFFIX}"
+    if [ ! -x $CTL_SCRIPT ]; then
+	echo "$CTL_SCRIPT." 1>&2
+	exit 5
+    fi
+}
+
+. /etc/rc.status
+rc_reset
+
+case "$1" in
+    start)
+	check start
+        sudo -u user ${MANAGE_BASE}start
+	;;
+    stop)
+	check stop
+        sudo -u user ${MANAGE_BASE}stop
+	for i in $ACCEPT_PORTS; do
+	    $IPTABLES -D INPUT -p tcp --dport $i -j ACCEPT
+        done
+        $IPTABLES -t nat -D PREROUTING -p tcp --dport 80 -j DNAT --to-destination :42069
+        $IPTABLES -t nat -D PREROUTING -p tcp --dport 443 -j DNAT --to-destination :42070
+	;;
+    restart)
+	check restart
+        sudo -u user ${MANAGE_BASE}stoprestart
+	;;
+    reload)
+	check reload
+        sudo -u user ${MANAGE_BASE}stopreload
+	;;
+    status)
+	echo -n "Checking for apache-httpd status: "
+	checkproc /home/user/playground/apache-httpd/runnable/bin/httpd
+	rc_status -v
+	;;
+    *)
+        echo "Unsupported action '$1'."
+	exit 1
+	;;
+esac
+
+rc_exit
