@@ -1,0 +1,71 @@
+<div id="Why-Nix">
+<div class="p">
+  After <a href="#History"><!-- TODO: perspectivise -->considering a
+  number of solutions</a>, we settled on nix to manage packages for
+  the following reasons:
+  <ul>
+    <li>Well supported software and active development.</li>
+    <li>Plays well with all target host systems; portable.</li>
+    <li>Starts with source builds; easily optimized with binary caches.</li>
+    <li>Easy to extend the base, community package set with our
+      Conveyor packages without needing to merge the two.</li>
+  </ul>
+  In short, the nix philosophy fit best with what we were trying to
+  accomplish.
+</div>
+<div class="p">
+  In addition to the fundamentals, nix has three features in
+  particular which were quite exciting from an operational
+  standpoint. First, the ability to roll back to a different
+  'generation' of installed packages means a lot less time 'undoing'
+  mistakes during operational testing and deployment. Second, the
+  ability to seamlessly run different package versions side by side
+  insulates the runtime from version contention issues. And finally,
+  the multi-user aspect, while not currently used, gives us options
+  for future deployment scenarios.
+</div>
+</div>
+<div id="History" data-perspective="historical">
+  <div class="p">
+    The distro work has been ongoing throughout the development of
+    Conveyor. It wa understood early on that success would require an
+    easy to use, "as is" platform for both users and developers. The
+    original idea was to use git repositories directly. This worked
+    well enough and was easy to manage, but had the unfortunate side
+    effect that infrastructure pieces—servers and libraries—had to be
+    wrapped by Conveyor compliant repositories. This led to a plethora
+    of '_third-party-*' repos, was already a little ugly, and
+    threatened to become unmanagable.
+  </div>
+  <div class="p">
+    The move to Bootstrap and direct support of LESS, was the tipping
+    point. A number of new packags needed to be wrapped and it became
+    appearent that the simple (i.e., non-existent) package management
+    being used would not suffice. We needed to consolidate and see if
+    we couldn't find something to leverage.
+  </div>
+  <div class="p">
+    A number of systems were explored including Bower, npm, guix, and
+    others. We also considered going back to distro specific
+    managers. Many of these solutions could have been made to work,
+    but on balance, nix was determined to be
+    the <a href="#Why-Nix">best bet</a>.
+  </div>
+  <div class="p">
+    While the nix documentation is complete, it's also a bit dense and
+    technical, and the following references were used to bootstrap up:
+    <ol>
+      <li><a href="https://www.domenkozar.com/2014/01/02/getting-started-with-nix-package-manager/">Getting started with Nix package manager</a> by <a href="https://www.domenkozar.com/">Domen Kozar</a></li>
+      <li>Especially <a href="http://sandervanderburg.blogspot.com/2014/07/managing-private-nix-packages-outside.html">Managing
+      private Nix packages outside the Nixpkgs tree</a>
+      by <a href="http://sandervanderburg.blogspot.com/">Sander van
+      der Burg</a> which laid out how to do what we could tell was
+      possible, but found hard to tease apart.
+  </div>
+</div>
+
+Nix Users Manual
+http://nixos.org/nix/manual/
+
+Nix Package Manual
+http://nixos.org/nixpkgs/manual/
