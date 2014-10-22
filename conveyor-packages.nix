@@ -8,4 +8,11 @@ rec {
     # Dependencies from Nixpkgs
     inherit (pkgs) stdenv fetchurl pkgconfig gcc openssl zlib perl;
   };
+
+  conveyor-php = import ./pkgs/development/interpreters/conveyor-php {
+    # Dependencies from Nixpkgs
+    inherit conveyor-apache;
+    inherit (pkgs) stdenv fetchurl gcc perl openssl zlib ncurses libxml2 libpng libjpeg curl gdbm icu imagemagick libiconv gettext readline libxslt libmcrypt freetype db4 bzip2;
+    inherit (pkgs.xlibs) libXpm;
+  };
 }
