@@ -15,4 +15,8 @@ rec {
     inherit (pkgs) stdenv fetchurl gcc perl openssl zlib ncurses libxml2 libpng libjpeg curl gdbm icu imagemagick libiconv gettext readline libxslt libmcrypt freetype db4 bzip2;
     inherit (pkgs.xlibs) libXpm;
   };
+
+  conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
+    inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
+  };
 }
