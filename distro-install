@@ -1,0 +1,5 @@
+#temporary note
+
+nix-env -f conveyor-packages.nix -iA conveyor-apache
+nix-env -f conveyor-packages.nix -iA conveyor-php
+nix-env -iA nixpkgs.lessc
