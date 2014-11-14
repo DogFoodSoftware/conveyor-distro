@@ -1,5 +1,34 @@
-Need to create 'conveyor-twitterbootstrap' package, which relies on
-gront. The NIX bootstrap is older; we want 3.3. Download and compile.
+To complete distro we need to integrate apache control into conveyor
+core. Two steps:
+
+1) Add 'admin' VirtualHost on port 8080 to apache. This points to nix
+   installation of conveyor core and redirects '/' to
+   '/hosts/self'. Initially, this just lists active services and
+   hosted sites. The admin server is fully controled by Conveyor and
+   may be used to manually administer, but also works with and to
+   enable environments.
+
+2) Support something like:
+
+con PATCH hosts/self '
+[
+  {
+    "op": "add",
+    "path": "/sites",
+    "value": {
+      "host-name": "liquid-labs.com",
+      "source": "$PLAYGROUND/liquid-labs.com/runnable/site"
+    }
+  },
+  {
+    "op": "add",
+    "path": "/sites",
+    "value": { 
+      "package-src": "github.com/LiquidLabs/website",
+      "version": "5ha2bc21830"
+    }
+  }
+]'
 
 Then integrate the LL theme into the less build.
 
