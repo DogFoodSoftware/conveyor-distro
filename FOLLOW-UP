@@ -1,0 +1,36 @@
+1) Document '/hosts' item data structure.
+
+   - '/hosts/self' special ID replaces 'self' with the
+     environment-unique host ID of the host actually processing the
+     request. This request /should/ never go beyond first endpoint. At
+     the same time users /should/ expect that hosts serving network
+     specific functions, such as load balancing or proxying may pass
+     the request along. While not desirable, it is effectively
+     unavoidable in some configurations.
+
+   - Has 'sites' list of host-site data necessary to tie a site into a
+     host. Leaves open but does not define separate '/sites' resource.
+
+
+2) Support something like:
+
+con PATCH hosts/self '
+[
+  {
+    "op": "add",
+    "path": "/sites",
+    "value": {
+      "host-name": "liquid-labs.com",
+      "source": "$PLAYGROUND/liquid-labs.com/runnable/site"
+    }
+  },
+  {
+    "op": "add",
+    "path": "/sites",
+    "value": { 
+      "package-src": "github.com/LiquidLabs/website",
+      "version": "5ha2bc21830"
+    }
+  }
+]'
+
