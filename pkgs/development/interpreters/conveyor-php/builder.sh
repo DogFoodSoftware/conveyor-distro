@@ -6,7 +6,7 @@ PATH=$perl/bin:$PATH
 
 tar xjf $src
 
-DATA_DIR=$home/.conveyor/data/`basename $out`
+DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/development/intterpreters/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
 
@@ -26,9 +26,13 @@ configureFlags="--prefix=$out --with-config-file-path=$DATA_DIR/conf $configureF
 echo "$configureFlags" > config_line
 ./configure $configureFlags
 make
+# Need to allow write to the apache modules dir for the 'libphp5.so'
+# object file.
 chmod u+w ${apache_home}/modules
 make install
 chmod u-w ${apache_home}/modules
+cp "$php_http_conf" /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/
+
 # echo -e "\n\nA\n\n"
 # make install-binaries
 # echo -e "\n\nB\n\n"

@@ -20,7 +20,7 @@ if [ 1 -eq 1 ]; then
     # TODO: make status to check to ensure installed and not running.
     # TODO: move this to status check?
     # check to see if our target ports are free
-    LISTEN_PORTS="42069 42070"
+    LISTEN_PORTS="8080 8443"
     for PORT in $LISTEN_PORTS; do
 	if [ x"" != x"`sudo netstat -tlnp | grep tcp | grep $PORT`" ]; then
 	    # qecho "Apache target port '$PORT' already bound." >&2
@@ -28,7 +28,7 @@ if [ 1 -eq 1 ]; then
 	    exit 1
 	fi
     done
-    $APACHE_DIR/runnable/bin/apachectl -k start
+    $APACHE_DIR/bin/apachectl -k start
     #we want to give the thing a moment to fail...
     i=0
     # TODO: As with above, we should just use 'apach-httpd-status' here and let it handle the logic to determine status.
@@ -44,7 +44,8 @@ if [ 1 -eq 1 ]; then
     fi
 fi # FLAGS_immediate check
 
-if [ $FLAGS_automate -eq $FLAGS_TRUE ]; then
+# if [ $FLAGS_automate -eq $FLAGS_TRUE ]; then
+if [ 0 -eq 1 ]; then
     # The scripts primarily target a VM environment where the operating user
     # has root access. So we test to see if we have root access, and if so,
     # attempt to configure the host init to automatacilly start the

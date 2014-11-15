@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source /home/user/playground/apache-httpd/src/apache-service-lib.sh
+APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache
 
-update_conf_dir
-sudo -u $USER runnable/bin/apachectl -k restart -f conf/httpd.conf
+$APACHE_DIR/bin/apachectl -k restart

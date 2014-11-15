@@ -18,6 +18,7 @@ stdenv.mkDerivation {
 
   home = builtins.getEnv "HOME";
   apache_home = conveyor-apache;
+  php_http_conf = ./conf/php5.httpd.conf;
   
   buildInputs = [ gcc openssl db4 zlib ncurses libxml2 libpng libjpeg freetype curl libmcryptOverride libxslt libiconv gdbm libXpm gettext imagemagick icu bzip2 readline conveyor-apache ];
 
