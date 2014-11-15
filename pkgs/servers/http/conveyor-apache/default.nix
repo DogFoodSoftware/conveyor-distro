@@ -15,6 +15,7 @@ stdenv.mkDerivation {
   httpdConf = ./conf/httpd.conf;
   httpdMime = ./conf/mime.types;
   httpdMagic = ./conf/magic;
+  bin = ./bin;
   home = builtins.getEnv "HOME";
   
   buildInputs = [ gcc openssl zlib ];

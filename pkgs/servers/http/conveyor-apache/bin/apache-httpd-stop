@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# TODO: include to re-enable 'qecho' call.
+# source $CONVEYOR_HOME/core/runnable/lib/shell-echo.sh
+
+APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache
+
+$APACHE_DIR/bin/apachectl -k stop
+#TODO: can we make the apachecontrol block?
+#takes a moment for the pid file to be deleted
+sleep 1
+if [ -f 'logs/httpd.pid' ]; then
+    # Re-enable after include sorted.
+    # qecho "Looks like apache may still be running." 1>&2
+    echo "Looks like apache may still be running." 1>&2
+    exit 1
+else
+    exit 0
+fi

@@ -1,0 +1,40 @@
+#!/bin/bash
+#/**
+#* <div class="p">
+#*   Script to determine status of <a href="/projects/apache-httpd">Apache HTTPD</a> service.
+#* </div>
+#* <div id="reference-documentation" class="blurbSummary">
+#*   <div class="blurbTitle">Reference Documentation</div>
+#*   <div class="p">
+#*     Implemented according to the <a
+#*     href="/documentation/kibbles/ref/coding/Service_Management_Scripts#stack-services-implementation-notes">Coding:
+#*     Service Management Scripts</a> reference. Also take note of the
+#*     requried <a
+#*     href="/documentation/kibbles/ref/coding/Service_Management_Scripts#stack-services-exit-codes">exit
+#*     codes</a>.
+#*   </div>
+#* </div><!-- #reference-documentation.blurbSummary -->
+#* <div id="implementation" class="blurbSummary">
+#*   <div class="blurbTitle">Implementation</div>
+#*/
+source $HOME/.conveyor/config
+source `dirname $0`/conf/conveyor-config.sh
+source $CONVEYOR_HOME/runnable/lib/shell-echo.sh
+source $CONVEYOR_HOME/runnable/lib/service-status.sh
+
+if [ ! -x $CONVEYOR_PLAYGROUND/$PROJECT_HOME/runnable/bin/httpd ]; then
+    qecho "$PROJECT_NAME NOT runnable."
+    exit $SERVICE_STATUS_NOT_RUNNABLE
+else
+    PS_PID=`ps U $USER | pgrep '^httpd$' | awk '{print $1}'`
+    if [ x"$PS_PID" == x ]; then
+	qecho "$PROJECT_HOME NOT running"
+	exit $SERVICE_INSTALLED_AND_NOT_RUNNING
+    else
+	qecho "$PROJECT_HOME running"
+	exit $SERVICE_STATUS_RUNNING
+    fi
+fi
+#/**
+#* </div><!-- #implementation.blurbSummary  -->
+#*/
