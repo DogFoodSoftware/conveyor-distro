@@ -1,13 +1,30 @@
 == Setup Admin (Virtual) Host ==
 
-Add 'admin' VirtualHost on port 443 to apache. This points to nix
-installation of conveyor core and redirects '/' to '/hosts/self'. It
-is also always the default VirtualHost as required by the Conveyor
-spec.
+Under 'conveyor/distro' add 'conveyor-environments' package. For now,
+downloads from github project distro master branch. By 0.1, that will
+change to release branch.
 
-Initially, this just lists active services and hosted sites. The admin
-server is fully controled by Conveyor and may be used to manually
-administer, but also works with and to enable environments.
+Under 'conveyor/environment' project:
+
+- Setup up admin web server virtual host configuration. This is
+  sym-linked into the .conveyor/data/distro/conf/admin-host.httpd
+  file. The symlink is directly referenced from the conveyor-apache
+  httpd.conf file. This is distinct from the 'runtime-conf' directory.
+  The admin config is loaded first, making it the default
+  virtualhost. It listens on *:443.
+
+- In admin server, map '/hosts' using standard implementation
+  mappings.
+
+- In admin server, redirect '/' to '/hosts/self'.
+
+- Work out and documentent initial site layout.
+  '.conveyor/data/sites/xxxx'. For development sites, 'xxxx' is a
+  symlink to the playground checkout. For packaged sites, it's the
+  actual site data. Manually setup 'll' as default HTTP site
+  ('__xxx.httpd.conf' convention).
+
+== LL Website ==
 
 Then integrate the LL theme into the less build.
 

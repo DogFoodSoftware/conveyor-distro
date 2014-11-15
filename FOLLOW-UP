@@ -9,7 +9,8 @@
      unavoidable in some configurations.
 
    - Has 'sites' list of host-site data necessary to tie a site into a
-     host. Leaves open but does not define separate '/sites' resource.
+     host. Leaves open but does not define separate '/sites'
+     resource. Reference the standard distribution site layout.
 
 
 2) Support something like:
