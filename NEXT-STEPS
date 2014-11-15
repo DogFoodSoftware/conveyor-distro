@@ -1,5 +1,8 @@
 == Setup Admin (Virtual) Host ==
 
+For development, generate virtual host config that maps requests to
+development directory.
+
 Under 'conveyor/distro' add 'conveyor-environments' package. For now,
 downloads from github project distro master branch. By 0.1, that will
 change to release branch.
