@@ -5,7 +5,7 @@ source $HOME/.conveyor/config
 # source $CONVEYOR_HOME/core/runnable/lib/shell-echo.sh
 source $CONVEYOR_HOME/core/runnable/lib/service-status.sh
 
-APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/httpd/conveyor-apache/runnable
+APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/runnable
 
 # Note the standard convention is to run immediate by default and set up
 # automated starts on request.

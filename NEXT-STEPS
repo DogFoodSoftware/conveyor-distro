@@ -1,3 +1,5 @@
+See 'PUNCH-OUT' in conveyor-core.
+
 == Setup Admin (Virtual) Host ==
 
 For development, generate virtual host config that maps requests to
