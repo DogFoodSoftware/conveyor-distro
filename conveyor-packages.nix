@@ -19,4 +19,8 @@ rec {
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
   };
+
+  conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
+    inherit (pkgs) stdenv fetchFromGitHub;
+  };
 }
