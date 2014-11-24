@@ -9,19 +9,23 @@ stdenv.mkDerivation rec {
     # not-so-useful error messages.
     url = "http://github.com/DogFoodSoftware/conveyor-environments/tarball/master";
     name = "DogFoodSoftware-conveyor-environments-e5b99a8.tar.gz";
-    sha256 = "042sjqcf9bm1jw8kvqy4hb4kz8p4fryqhkq0gqfzlfz2h49f5qim";
-  };  
+    sha256 = "1gs6g02swf0iakf61bp45vn7iq7014k06xf56wy5r69hqwcxzcid";
+  };
+
+  home = builtins.getEnv "HOME";
 
   phases = [ "installPhase" ];
 
   installPhase = ''
-    echo "out: $out"
-    echo "src: $src"
     mkdir -p $out
     cp -a $src/* $out/
-    # mkdir -p $out/css $out/js
-    # closure-compiler --js $src/js/*.js > $out/js/bootstrap.js
-    # lessc $src/less/bootstrap.less -O2 -x > $out/css/bootstrap.css
+    mkdir -p "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor/environments"
+    rm -f "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor/environments/runnable"
+    rm -f "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor/environments/conf"
+    ln -s "$out/src" "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor/environments/runnable"
+    ln -s "$out/conf" "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor/environments/conf"
+    rm -f /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/__admin-server.httpd.conf
+    cp $out/conf/__admin-server.httpd.conf /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/
   ''; 
 
   meta = {
