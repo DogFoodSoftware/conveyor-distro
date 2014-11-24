@@ -21,6 +21,6 @@ rec {
   };
 
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
-    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit (pkgs) stdenv fetchzip;
   };
 }
