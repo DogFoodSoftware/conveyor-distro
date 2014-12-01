@@ -1,5 +1,17 @@
+#/bin/bash
+
 #temporary note
 
 nix-env -f conveyor-packages.nix -iA conveyor-apache
 nix-env -f conveyor-packages.nix -iA conveyor-php
 nix-env -f conveyor-packages.nix -iA conveyor-twitter-bootstrap
+
+DISTRO_LOCATION=`basename $0`
+DISTRO_LOCATION=`realpath $DISTRO_LOCATION`
+
+DISTROS_PATH="$HOME/.conveyor/distros"
+THIS_DISTRO="$DISTROS_PATH/dogfoodsoftware.com/conveyor/distro"
+mkdir -p `basename $THIS_DISTRO"
+
+ln -s "$DISTRO_LOCATION" "$THIS_DISTRO"
+ln -s "$DISTRO_LOCATION" "$DISTRO_PATH/__root"
