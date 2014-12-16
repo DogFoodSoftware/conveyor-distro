@@ -32,7 +32,7 @@ chmod u+w ${apache_home}/modules
 make install
 chmod u-w ${apache_home}/modules
 rm -f /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/`basename $php_http_conf`
-cp "$php_http_conf" /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/
+cp "$php_http_conf" /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/php.httpd.conf
 
 # echo -e "\n\nA\n\n"
 # make install-binaries

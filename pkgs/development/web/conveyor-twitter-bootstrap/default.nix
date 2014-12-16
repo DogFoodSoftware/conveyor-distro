@@ -18,8 +18,14 @@ stdenv.mkDerivation rec {
   installPhase = ''
     echo "out: $out"
     echo "src: $src"
-    mkdir -p $out
-    cp -a $src/* $out/
+    mkdir -p $out/conveyor-twitter-bootstrap
+    cp -a $src/* $out/conveyor-twitter-bootstrap
+    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap
+    rm /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap/runnable
+    ln -s $out/conveyor-twitter-bootstrap /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap/runnable
+
+
+
     # mkdir -p $out/css $out/js
     # closure-compiler --js $src/js/*.js > $out/js/bootstrap.js
     # lessc $src/less/bootstrap.less -O2 -x > $out/css/bootstrap.css

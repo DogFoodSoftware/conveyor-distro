@@ -20,6 +20,10 @@ rec {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
   };
 
+  conveyor-minify = import ./pkgs/development/web/conveyor-minify {
+    inherit (pkgs) stdenv fetchFromGitHub;
+  };
+
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
     inherit (pkgs) stdenv fetchzip;
   };
