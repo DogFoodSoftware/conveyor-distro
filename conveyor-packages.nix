@@ -12,12 +12,6 @@ rec {
     inherit (pkgs) stdenv patchelf fetchurl pkgconfig gcc openssl zlib perl cmake bison ncurses;
   };
 
-  test = import ./test {
-    inherit conveyor-mysql;
-    # inherit conveyor-mysql;
-    inherit (pkgs) stdenv fetchurl pkgconfig gcc openssl zlib perl cmake bison ncurses patchelf;
-  };
-
   conveyor-php = import ./pkgs/development/interpreters/conveyor-php {
     # Needs apache tools to build apache PHP module.
     inherit conveyor-apache conveyor-mysql;
