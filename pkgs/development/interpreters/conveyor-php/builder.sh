@@ -16,13 +16,8 @@ cd php-*
 # if [ -d $PG_RUNNABLE ]; then 
 #     CONFIG="$CONFIG --with-pgsql=$PG_RUNNABLE"
 # fi
-# #conditionally include the mysql headers
-# MYSQL_RUNNABLE=$DFS_HOME/third-party/mysql/runnable
-# if [ -d $MYSQL_RUNNABLE ]; then 
-#     # on 64 bit system, the it is necessary to refer explicitly to lib64 (which is a symlink in the Kibbles mysql install); it makes no sense because the default 'lib' doesn't work but specifying lib64 does... whatever, this is how it needs to be at the moment (mysql 5.5.21 and PHP 5.3.6)
-#     CONFIG="$CONFIG --with-mysql=$MYSQL_RUNNABLE --with-libdir=lib64"
-# fi
-configureFlags="--prefix=$out --with-config-file-path=$DATA_DIR/conf $configureFlags"
+
+configureFlags="--prefix=$out --with-config-file-path=$DATA_DIR/conf $configureFlags --with-mysql=$mysql_home"
 echo "$configureFlags" > config_line
 ./configure $configureFlags
 make
@@ -31,8 +26,12 @@ make
 chmod u+w ${apache_home}/modules
 make install
 chmod u-w ${apache_home}/modules
-rm -f /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/`basename $php_http_conf`
-cp "$php_http_conf" /home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc/php.httpd.conf
+APACHE_CONF_PATH=/home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc
+if [ -f $APACHE_CONF_PATH/php.httpd.conf ]; then
+    chmod u+w $APACHE_CONF_PATH/php.httpd.conf
+    rm -f $APACHE_CONF_PATH/php.httpd.conf
+fi
+cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 
 # echo -e "\n\nA\n\n"
 # make install-binaries
