@@ -37,6 +37,8 @@ stdenv.mkDerivation rec {
     echo "Creatng / updating configuration..."
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
+
+    mkdir -p /home/user/.conveyor/data/dogfoodsoftware/conveyor-minify/cache;
   ''; 
 
   meta = {

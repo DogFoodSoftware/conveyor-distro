@@ -46,7 +46,7 @@ $min_allowDebugFlag = true;
 //$min_cachePath = 'c:\\WINDOWS\\Temp';
 //$min_cachePath = '/tmp';
 //$min_cachePath = preg_replace('/^\\d+;/', '', session_save_path());
-$min_cachePath = dirname(__FILE__)."/../../data/cache";
+$min_cachePath = "/home/user/.conveyor/data/dogfoodsoftware/conveyor-minify/cache";
 /**
  * To use APC/Memcache/ZendPlatform for cache storage, require the class and
  * set $min_cachePath to an instance. Example below:
