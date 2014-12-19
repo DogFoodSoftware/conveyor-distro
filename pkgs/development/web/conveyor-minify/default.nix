@@ -15,15 +15,23 @@ stdenv.mkDerivation rec {
   phases = [ "installPhase" ];
 
   installPhase = ''
-    mkdir -p $out/conveyor-minify
-    echo "src: $src"
-    echo "out: $out"
-    cp -a $src/* $out/conveyor-minify
-    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-minify
-    rm -f /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-minify/runnable
-    ln -s $out/conveyor-minify /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-minify/runnable
-    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-minify/conf
-    cp $minify_conf /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-minify/conf/conveyor-minify.httpd.conf
+    # Always create package context to avoid name collisions.
+    INSTALL_DIR=$out/conveyor-minify
+    RUNTIME_LINK=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-minify
+
+    mkdir -p $INSTALL_DIR
+    cp -a $src/* $INSTALL_DIR
+    
+    echo "Creating runtime link..."
+    mkdir -p `basename $RUNTIME_LINK`
+    rm -f $RUNTIME_LINK
+    ln -s $INSTALL_DIR $RUNTIME_LINK
+
+    echo "Creatng / updating configuration..."
+    mkdir -p $INSTALL_DIR/conf
+    cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
+    rm -f /home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/minify.httpd.conf
+    ln -s $INSTALL_DIR/conf/minify.httpd.conf /home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/minify.httpd.conf
   ''; 
 
   meta = {

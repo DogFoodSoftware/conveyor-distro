@@ -1,32 +1,42 @@
 source $stdenv/setup 1
 
+INSTALL_DIR=$out/conveyor-apache
+RUNTIME_LINK=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache
+
 PATH=$perl/bin:$PATH
 
 tar xjf $src
 
 cd httpd-*
-./configure --prefix=$out \
+echo "Configuring..."
+./configure --prefix=$INSTALL_DIR \
     --enable-dav=shared \
     --enable-dav-fs=shared \
     --enable-ssl=shared \
     --enable-so \
     --enable-rewrite=shared \
     --enable-deflate=shared
+echo "Compiling..."
 make
+echo "Installing..."
 make install
 
-mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache
-rm /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/runnable
-ln -s $out/ /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/runnable
+echo "Creating runtime link..."
+mkdir -p `basename $RUNTIME_LINK`
+rm -f $RUNTIME_LINK
+ln -s $INSTALL_DIR $RUNTIME_LINK
 
 # Set up the static Conveyor-Stack configuration for Apache.
-cd $out
+cd $INSTALL_DIR
 
 # Our own httpd.conf is fundamental to the whole idea.
 mv conf/httpd.conf conf/httpd.conf.built
 cp $httpdConf ./conf/httpd.conf
 # Also copy over our conveyor control scripts.
-cp $bin/* ./bin
+mkdir $out/bin
+cp $bin/* $out/bin 
+# Not sure whether it's necessary to copy bin to '$out' rather than
+# $INSTALL_DIR, but I think so.
 
 # These two files fix issues we had at one time. At
 # this point, I don't remember exactly what they are.
@@ -43,7 +53,7 @@ cp $httpdMagic ./conf/magic
 # than use 'impure' vars (imported from the environment used to launch
 # nix), the 'home' is an argument provided by the nix installation
 # expression.
-DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/
+DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/
 # Note, the data dir may already exist; for instance, the package was
 # deleted then re-installed from nix.
 mkdir -p $DATA_DIR
@@ -55,14 +65,10 @@ mkdir -p $DATA_DIR/ssl
 mkdir -p $DATA_DIR/htdocs
 mv ./htdocs/* $DATA_DIR/htdocs
 rmdir ./htdocs
-if [ ! -f $DATA_DIR/htdocs ]; then
-    ln -s $DATA_DIR/htdocs htdocs
-fi
+ln -s $DATA_DIR/htdocs htdocs
 
 # We want logs to be both standard and durable, so we create
 # our own and then symlink the directory in the nix installation.
 mkdir -p $DATA_DIR/logs
 rmdir ./logs
-if [ ! -f $DATA_DIR/logs ]; then
-    ln -s $DATA_DIR/logs logs
-fi
+ln -s $DATA_DIR/logs logs

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/runnable
+APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com//conveyor-apache
 
 $APACHE_DIR/bin/apachectl -k restart

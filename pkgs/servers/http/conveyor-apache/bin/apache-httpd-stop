@@ -3,7 +3,7 @@
 # TODO: include to re-enable 'qecho' call.
 # source $CONVEYOR_HOME/core/runnable/lib/shell-echo.sh
 
-APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/runnable
+APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache
 
 $APACHE_DIR/bin/apachectl -k stop
 #TODO: can we make the apachecontrol block?
