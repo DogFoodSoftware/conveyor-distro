@@ -11,6 +11,7 @@ stdenv.mkDerivation rec {
   };
 
   minify_conf = ./conf/minify.httpd.conf;
+  minify_src = ./src;
 
   phases = [ "installPhase" ];
 
@@ -22,6 +23,12 @@ stdenv.mkDerivation rec {
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
     
+    for i in `ls $minify_src`; do
+      chmod u+w $INSTALL_DIR/min/$i
+      cp $minify_src/$i $INSTALL_DIR/min
+      chmod u-w $INSTALL_DIR/min/$i
+    done
+    
     echo "Creating runtime link..."
     mkdir -p `basename $RUNTIME_LINK`
     rm -f $RUNTIME_LINK
@@ -30,8 +37,6 @@ stdenv.mkDerivation rec {
     echo "Creatng / updating configuration..."
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
-    rm -f /home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/minify.httpd.conf
-    ln -s $INSTALL_DIR/conf/minify.httpd.conf /home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/minify.httpd.conf
   ''; 
 
   meta = {
