@@ -1,14 +1,14 @@
 { stdenv, fetchFromGitHub }: #, lessc, closurecompiler }:
 
 stdenv.mkDerivation rec {
-  version = "3.3.0";
+  version = "3.3.1";
   name = "conveyor-twitter-bootstrap-${version}";
 
   src = fetchFromGitHub {
     owner = "twitter";
     repo = "bootstrap";
     rev =  "v${version}";
-    sha256 = "1d70mhxx2pwp0hghjynz17a2s3vj6wj1mdg0sg9dgwkmlnbxv7jy";
+    sha256 = "13m4yvksnr776dzlzwbgkz2959r28knpff96n5i07nk97ms83f8v";
   };  
 
   # buildInputs = [ lessc closurecompiler ];
@@ -16,15 +16,13 @@ stdenv.mkDerivation rec {
   phases = [ "installPhase" ];
 
   installPhase = ''
-    echo "out: $out"
-    echo "src: $src"
-    mkdir -p $out/conveyor-twitter-bootstrap
-    cp -a $src/* $out/conveyor-twitter-bootstrap
-    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap
-    rm /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap/runnable
-    ln -s $out/conveyor-twitter-bootstrap /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor/distro/pkgs/development/web/conveyor-twitter-bootstrap/runnable
+    INSTALL_DIR=$out/conveyor-twitter-bootstrap
 
-
+    mkdir -p $INSTALL_DIR
+    cp -a $src/* $INSTALL_DIR
+    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com
+    rm -f /home/user/.conveyor/runtime/dogfoodsoftware.com//conveyor-twitter-bootstrap
+    ln -s $out/conveyor-twitter-bootstrap /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-twitter-bootstrap
 
     # mkdir -p $out/css $out/js
     # closure-compiler --js $src/js/*.js > $out/js/bootstrap.js

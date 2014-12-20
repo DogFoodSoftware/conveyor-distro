@@ -20,6 +20,10 @@ rec {
     inherit (pkgs.xlibs) libXpm;
   };
 
+  conveyor-less = import ./pkgs/development/interpreters/conveyor-less {
+    inherit (pkgs) stdenv nodejs;
+  };
+
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
   };
