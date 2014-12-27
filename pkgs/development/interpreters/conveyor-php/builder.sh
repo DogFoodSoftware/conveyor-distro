@@ -1,12 +1,13 @@
 source $stdenv/setup 1
 
-echo -e "-------\n\n$apache_home\n\n--------"
-
 PATH=$perl/bin:$PATH
 
 tar xjf $src
 
-DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/development/intterpreters/conveyor-php
+BUILD_DIR="$out/conveyor-php"
+DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
+RUNTIME_LINK="$DFS_RUNTIME/conveyor-php"
+DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
 
@@ -17,16 +18,22 @@ cd php-*
 #     CONFIG="$CONFIG --with-pgsql=$PG_RUNNABLE"
 # fi
 
-configureFlags="--prefix=$out --with-config-file-path=$DATA_DIR/conf $configureFlags --with-mysql=$mysql_home"
+# The bulk of the flags come from the nix expression; these locate the
+# nix supplied libraries.
+configureFlags="--prefix=$BUILD_DIR \
+                --with-config-file-path=$DATA_DIR/conf \
+                --with-apxs2=$DFS_RUNTIME/conveyor-apache/bin/apxs \
+                --with-mysql=$mysql_home \
+                $configureFlags"
 echo "$configureFlags" > config_line
 ./configure $configureFlags
 make
 # Need to allow write to the apache modules dir for the 'libphp5.so'
 # object file.
-chmod u+w ${apache_home}/modules
+chmod u+w ${apache_home}/conveyor-apache/modules
 make install
-chmod u-w ${apache_home}/modules
-APACHE_CONF_PATH=/home/user/.conveyor/data/dogfoodsoftware.com/conveyor/distro/pkgs/servers/http/conveyor-apache/conf-inc
+chmod u-w ${apache_home}/conveyor-apache/modules
+APACHE_CONF_PATH=/home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc
 if [ -f $APACHE_CONF_PATH/php.httpd.conf ]; then
     chmod u+w $APACHE_CONF_PATH/php.httpd.conf
     rm -f $APACHE_CONF_PATH/php.httpd.conf
@@ -49,13 +56,11 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 # rm $APACHE_MODULES_DIR/libphp5.so
 # ln -s $BUILD_DIR/modules/libphp5.so $APACHE_MODULES_DIR
 # cd ..
-# Cleanup the exploded source directory.
-# rm -rf php-*
 
 # ./bin/pear install mdb2
 # ./bin/pear install mdb2_driver_pgsql
 # ./bin/pear install mdb2_driver_mysql
 
-# ln -s $PHP_HOME/src/app $BUILD_DIR
-
 mkdir -p $DATA_DIR/data/logs
+ln -s $BUILD_DIR $RUNTIME_LINK
+ln -s $BUILD_DIR/bin $out/bin
