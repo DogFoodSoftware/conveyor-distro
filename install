@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Check if 'nix' is installed / available.
+if [[ ! $(type -P nix-env) ]]; then
+    read -r -p "Nix installation not found, install? (y/N) " ANSWER
+    if [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
+	echo "Implement nix install." >&2
+	exit 500
+    else
+	echo "Cannot proceed without nix installation. Aborting." >&2
+	exit 400 # Better code?
+    fi
+fi
+
+mkdir -p $HOME/.conveyor/runtime/dogfoodsoftware.com/
+if [ -d $HOME/playground/dogfoodsoftware.com/distro ]; then
+    rm -f $HOME/.conveyor/runtime/dogfoodsoftware.com/distro
+    ln -s $HOME/playground/dogfoodsoftware.com/distro $HOME/.conveyor/runtime/dogfoodsoftware.com/distro
+    # nix-channel --add file://$HOME/playground/dogfoodsoftware.com/distro dogfoodsoftware.com
+else
+    echo "ERROR: Remote nix channel not yet implemented." >&2
+    exit 501
+    # nix-channel -add https://github.com/DogFoodSoftware.com dogfoodsoftware.com
+    # ln -s $HOME/.nix-defexpr/channels/dogfoodsoftware.com $HOME/.conveyor/runtime/dogfoodsoftware.com/distro
+fi  
+
+nix-env -f $HOME/.conveyor/runtime/dogfoodsoftware.com/distro/default.nix -iA conveyor-core

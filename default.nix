@@ -32,6 +32,10 @@ rec {
     inherit (pkgs) stdenv fetchFromGitHub;
   };
 
+  conveyor-core = import ./pkgs/development/web/conveyor-core {
+    inherit (pkgs) stdenv fetchFromGitHub;
+  };
+
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
     inherit (pkgs) stdenv fetchzip;
   };
