@@ -12,6 +12,10 @@ rec {
     inherit (pkgs) stdenv patchelf fetchurl pkgconfig gcc openssl zlib perl cmake bison ncurses;
   };
 
+  conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
   conveyor-php = import ./pkgs/development/interpreters/conveyor-php {
     # Needs apache tools to build apache PHP module.
     inherit conveyor-apache conveyor-mysql;

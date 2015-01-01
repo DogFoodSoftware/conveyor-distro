@@ -40,10 +40,9 @@ MAXHEAP="-Xmx${MAXHEAP}"
 
 cd "$ORIENTDB_HOME"
 
-if [ ! -f "${CONFIG_FILE}" ]
-then
-  CONFIG_FILE=$ORIENTDB_HOME/config/orientdb-server-config.xml
-fi
+# The 'real' config file is under the Conveyor data dir for
+# 'conveyor-orientdb'. However, we link the original config directory
+CONFIG_FILE=$ORIENTDB_HOME/config/orientdb-server-config.xml
 
 # Raspberry Pi check (Java VM does not run with -server argument on ARMv6)
 if [ `uname -m` != "armv6l" ]; then
