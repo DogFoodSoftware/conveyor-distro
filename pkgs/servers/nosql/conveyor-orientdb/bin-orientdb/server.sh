@@ -63,4 +63,8 @@ WWW_PATH=$ORIENTDB_HOME/www
 ORIENTDB_SETTINGS="-Dprofiler.enabled=true"
 JAVA_OPTS_SCRIPT="-Djna.nosys=true -XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true -Dfile.encoding=UTF8 -Drhino.opt.level=9"
 
-"$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2014-12-17 21:54:12+0000" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0-rc1.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain
+echo "Start with:"
+echo "$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2014-12-17 21:54:12+0000" -DCONVEYOR_DATA_DIR="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0-rc1.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain
+echo
+
+"$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2014-12-17 21:54:12+0000" -DCONVEYOR_DATA_DIR="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0-rc1.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain

@@ -1,6 +1,8 @@
 source $stdenv/setup 1
 
 INSTALL_DIR=$out/conveyor-orientdb
+DATA_DIR="$home/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
+RUNTIME_LINK="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
 
 # Install program files and our own control scripts.
 mkdir -p $INSTALL_DIR
@@ -11,7 +13,6 @@ cp "$conveyor_bin/"* $out/bin
 cp "$orientdb_bin/"* $INSTALL_DIR/bin
 
 # Setup data directory.
-DATA_DIR="$home/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
 mkdir -p "$DATA_DIR"
 
 # TODO: move this to conveyor-core install lib.
@@ -31,13 +32,22 @@ function move_dir() {
 	fi
 	# Now replace source with link to target.
 	rmdir "$SRC"
-	ln -s "$TARGET" "$SRC"
+    else # The directories have already been setup. Or logic will
+	 # probably change as Conveyor updates firm up, but for now,
+	 # we'll just move the newly installed directory over to
+	 # preserve the data. Either way, we need to set up the links
+	 # to the conveyor data dir.
+	mv "$SRC" "$SRC".new
     fi
+    ln -s "$TARGET" "$SRC"
 }
 
 move_dir log log
 move_dir config conf
-cp --no-clobber "$conf/"* "$DATA_DIR/conf"
+chmod u+w "$DATA_DIR/conf/"*
+cp "$conf/"* "$DATA_DIR/conf"
 
 chmod u-w $out
 
+rm -rf $RUNTIME_LINK
+ln -s $INSTALL_DIR $RUNTIME_LINK
