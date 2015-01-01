@@ -14,6 +14,8 @@ stdenv.mkDerivation {
   };
 
   conveyor_bin = ./bin
+  orientdb_bin = ./bin-orientdb
+  conf = ./conf
 
   home = builtins.getEnv "HOME";
   
