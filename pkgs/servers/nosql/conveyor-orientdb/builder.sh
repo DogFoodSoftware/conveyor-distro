@@ -44,6 +44,16 @@ function move_dir() {
 
 move_dir log log
 move_dir config conf
+# TODO: We're doing this because OrientDB really wants to put the
+# console history in the bin directory and reasonable googling has
+# failed to turn up configuration to say otherwise. May need to submit
+# patch to the code. Originally tried 'chmod'-ing the install bin, but
+# nix appearently goes back and cleans up the chmods after the
+# script... and besides that would break out 'runtime inviolate'
+# rule. So, until we find a way to configure that out, we have to move
+# the 'bin'.
+move_dir bin bin
+chmod u+w "$DATA_DIR/bin"
 chmod u+w "$DATA_DIR/conf/"*
 cp "$conf/"* "$DATA_DIR/conf"
 

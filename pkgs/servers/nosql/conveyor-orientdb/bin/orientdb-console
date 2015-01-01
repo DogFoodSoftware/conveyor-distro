@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Pass through for OrientDB's pre-packaged 'console.sh' script. We
+# want something more explanatory in our PATH, however.
+
+$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb/bin/console.sh $*
