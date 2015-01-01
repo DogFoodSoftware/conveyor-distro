@@ -1,0 +1,26 @@
+The main purpose of this distro is to provide a consistent stack for
+the Conveyor environment.
+
+Because Conveyor is essentially a REST-ful system, it seem to make a
+lot of sense to use a NoSQL / Graph DB that could quickly output and
+work with JSON data. The two primary contenders at the time of
+evaluation were Neo4j and OrientDB. Both had all the necessary
+qualificiations, but we went with OrientDB primarily based this <a
+href="http://vschart.com/compare/neo4j/vs/orientdb">analysis</a> that
+claimed Neo4j's minimum memory footprint was 2GB, while OrientDB could
+start off at a mere 16MB. Since 2GB is the target 'standard' memory
+allotment, that would obviously be a problem. Also, overall it seemed
+that while they were overall quite similar and Neo4j did have
+advantages (not the least of which were community and ecosystem),
+OrientDB also had a clearer licensing structure and seemed to edge out
+Neo4j on certain technical issues. Also, OrientDB just seems to be
+better liked in the head-to-head despite the straight market
+share. The OrientDB written comparison of the two is of course not
+persuasive on it's own, but the lack of any response by Neo4j or
+others (that I was able to find) is, in the absence of primary
+evidence, some kind of evidence of it's own.
+
+See:
+- http://vschart.com/compare/neo4j/vs/orientdb
+- http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis
+- http://www.orientechnologies.com/orientdb-vs-neo4j/
