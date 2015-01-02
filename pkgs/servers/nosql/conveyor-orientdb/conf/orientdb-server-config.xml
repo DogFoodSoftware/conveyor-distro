@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- WARNING: In the standard Conveyor install, this file will be
+     overwritten bythe 'conveyor-core' package. The conveyor-core
+     package has responsibility for the database. However, we want 
+     to keep 'conveyor-orientdb' in a basically working state, so 
+     we do need to provide something.
+-->
 <orient-server>
     <handlers>
         <handler class="com.orientechnologies.orient.graph.handler.OGraphServerHandler">
@@ -92,8 +99,10 @@
         </listeners>
     </network>
     <storages>
-      <storage name="conveyor" path="plocal:${ORIENTDB_HOME}/databases/conveyor"
+      <!-- See 'conveyor-core' setup for most current setup.
+      <storage name="conveyor" path="plocal:${CONVEYOR_CORE_HOME}/databases/conveyor"
 	       loaded-at-startup="true" />
+      -->
     </storages>
     <users>
         <user resources="*" password="DAF407370688AB37DFE7A125408BC947129818ACB3CA23C34D02A893EEA1DA70" name="root"/>
