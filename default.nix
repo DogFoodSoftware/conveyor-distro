@@ -37,7 +37,7 @@ rec {
   };
 
   conveyor-core = import ./pkgs/development/web/conveyor-core {
-    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit (pkgs) stdenv fetchFromGitHub conveyor-orientdb;
   };
 
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {

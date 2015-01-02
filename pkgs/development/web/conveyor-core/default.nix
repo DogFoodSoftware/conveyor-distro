@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub }:
+{ stdenv, fetchFromGitHub, conveyor-orientdb }:
 
 stdenv.mkDerivation rec {
   name = "conveyor-core";
