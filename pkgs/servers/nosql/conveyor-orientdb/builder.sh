@@ -44,6 +44,7 @@ function move_dir() {
 
 move_dir log log
 move_dir config conf
+move_dir databases databases
 # TODO: We're doing this because OrientDB really wants to put the
 # console history in the bin directory and reasonable googling has
 # failed to turn up configuration to say otherwise. May need to submit
@@ -56,6 +57,17 @@ move_dir bin bin
 chmod u+w "$DATA_DIR/bin"
 chmod u+w "$DATA_DIR/conf/"*
 cp "$conf/"* "$DATA_DIR/conf"
+# TODO: And now the 'orientdb-server-config.xml' workaround. Keeps
+# eyes out for more elegant solution. Problem is, despite claming that
+# '${ORIENTDB_HOME}' can be used in the files, we get errors that the
+# property cannot be resolved. So we hard code, but still want to
+# respect the home of the user and not assume anything on that
+# point. So we read the file and rewrite doing our own substitition.
+ORIENTDB_HOME="$RUNTIME_LINK"
+SERVER_CONF="$DATA_DIR/conf/orientdb-server-config.xml"
+mv "$SERVER_CONF" "$SERVER_CONF".old
+sed -e "s|\${ORIENTDB_HOME}|${ORIENTDB_HOME}|" "${SERVER_CONF}.old" > "$SERVER_CONF"
+rm "$SERVER_CONF".old
 
 chmod u-w $out
 
