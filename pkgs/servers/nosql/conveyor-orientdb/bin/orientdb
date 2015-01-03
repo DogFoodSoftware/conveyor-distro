@@ -2,6 +2,9 @@
 #
 # Based on 'orientdb.sh', but suitable for non-root users; also
 # configured for standard conveyor setup.
+if [ ! -z ${stdenv+x} ]; then #if $stdenv set
+    HOME="$home"
+fi
 
 ORIENTDB_DIR="$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
 DATA_DIR="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
@@ -13,14 +16,15 @@ usage() {
 }
 
 start() {
+    set +e
 	status
+	set -e
 	if [ $PID -gt 0 ]
 	then
 		echo "OrientDB server daemon was already started. PID: $PID"
 		return $PID
 	fi
 	echo "Starting OrientDB server daemon..."
-	cd "$ORIENTDB_DIR/bin"
 	cd "$ORIENTDB_DIR/bin"
 	nohup ./server.sh >> $LOG_DIR/orientdb.log 2>&1 &
 }

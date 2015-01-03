@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, conveyor-orientdb }:
+{ stdenv, procps, gnugrep, gawk, fetchFromGitHub, jre, conveyor-orientdb }:
 
 stdenv.mkDerivation rec {
   name = "conveyor-core";
@@ -16,26 +16,10 @@ stdenv.mkDerivation rec {
       sha256 = "1a1567vpbjb8q71pxsr4kpnw1qvi9p7i61pky8mp4m27z4hh6h4r";
     };
 
-  phases = [ "installPhase" ];
+  builder = ./builder.sh;
 
-  installPhase = ''
-    # Always create package context to avoid name collisions.
-    INSTALL_DIR=$out/conveyor-core
-    RUNTIME_LINK=$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
-
-    if [[ "$src" == "$test_path" ]]; then
-      mkdir -p `dirname $INSTALL_DIR`
-      ln -s $src $INSTALL_DIR
-    else 
-      mkdir -p $INSTALL_DIR
-      cp -a $src/* $INSTALL_DIR
-    fi
-    
-    echo "Creating runtime link..."
-    mkdir -p `basename $RUNTIME_LINK`
-    rm -f $RUNTIME_LINK
-    ln -s $INSTALL_DIR $RUNTIME_LINK
-  ''; 
+  # The 'orientdb' script needs 'ps', 'grep', 'awk', and 'java'.
+  buildInputs = [ conveyor-orientdb procps gnugrep gawk jre ];
 
   # meta = {
   #   description = "Something...";

@@ -37,7 +37,8 @@ rec {
   };
 
   conveyor-core = import ./pkgs/development/web/conveyor-core {
-    inherit (pkgs) stdenv fetchFromGitHub conveyor-orientdb;
+    inherit (pkgs) stdenv procps gnugrep gawk jre fetchFromGitHub;
+    inherit conveyor-orientdb;
   };
 
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
