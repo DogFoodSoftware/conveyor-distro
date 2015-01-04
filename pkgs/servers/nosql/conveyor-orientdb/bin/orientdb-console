@@ -2,5 +2,8 @@
 #
 # Pass through for OrientDB's pre-packaged 'console.sh' script. We
 # want something more explanatory in our PATH, however.
+if [ ! -z ${stdenv+x} ]; then #if $stdenv set
+    HOME="$home"
+fi
 
 $HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb/bin/console.sh $*

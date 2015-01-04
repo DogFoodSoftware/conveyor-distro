@@ -103,7 +103,19 @@ EOF
     sleep 4
 
     echo "Creating core schema..."
-    "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/schema/conveyor.sh"
+    SCHEMA_ODB="${home}/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb/schema/conveyor.odb"
+    mkdir -p `dirname "$SCHEMA_ODB"`
+    cp "${src}/schema/conveyor.odb" "${SCHEMA_ODB}"
+    for VAR in '${ODB_USERNAME}' '${ODB_PASSWORD}'; do
+	# TODO: I thought in place replacement worked, but it seemed to
+	# produce errors and I didn't have time to look into it.
+	VAR_VALUE=`eval echo "$VAR"`
+	mv "$SCHEMA_ODB" "$SCHEMA_ODB".tmp
+	sed -e "s|${VAR}|${VAR_VALUE}|" "${SCHEMA_ODB}.tmp" > "$SCHEMA_ODB"
+	rm "$SCHEMA_ODB".tmp
+    done
+
+    orientdb-console "$SCHEMA_ODB" || true
 
 elif [[ -f "$ODB_CREDENTIALS" ]]; then
     echo "ERROR: Found Conveyor (Orient)DB, but did not find '$ODB_CREDENTIALS'; no automated fix available." >&2
