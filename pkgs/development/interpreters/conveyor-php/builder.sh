@@ -61,6 +61,11 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 # ./bin/pear install mdb2_driver_pgsql
 # ./bin/pear install mdb2_driver_mysql
 
+# Nix adds a hash to 'php_ini', but we need the name to be simple for
+# PHP.
+cp $php_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
+
 mkdir -p $DATA_DIR/data/logs
+rm -f $RUNTIME_LINK
 ln -s $BUILD_DIR $RUNTIME_LINK
 ln -s $BUILD_DIR/bin $out/bin

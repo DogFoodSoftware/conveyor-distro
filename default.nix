@@ -20,7 +20,7 @@ rec {
     # Needs apache tools to build apache PHP module.
     inherit conveyor-apache conveyor-mysql;
     # Dependencies from Nixpkgs
-    inherit (pkgs) stdenv fetchurl gcc perl openssl zlib ncurses libxml2 libpng libjpeg curl gdbm icu imagemagick libiconv gettext readline libxslt libmcrypt freetype db4 bzip2;
+    inherit (pkgs) stdenv fetchurl gcc perl openssl zlib ncurses libxml2 libpng libjpeg curl gdbm icu imagemagick libiconv gettext readline libxslt libmcrypt freetype db4 bzip2 cacert;
     inherit (pkgs.xlibs) libXpm;
   };
 

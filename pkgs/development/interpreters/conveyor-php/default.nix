@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, gcc, perl, openssl, libiconv, gettext, zlib, readline, ncurses, libxslt, libmcrypt, libxml2, libpng, libjpeg, freetype, curl, icu, gdbm, db4, libXpm, imagemagick, bzip2, conveyor-apache, conveyor-mysql }:
+{ stdenv, fetchurl, gcc, perl, openssl, libiconv, gettext, zlib, readline, ncurses, libxslt, libmcrypt, libxml2, libpng, libjpeg, freetype, curl, icu, gdbm, db4, libXpm, imagemagick, bzip2, cacert, conveyor-apache, conveyor-mysql }:
 
 let
   libmcryptOverride = libmcrypt.override { disablePosixThreads = true; };
@@ -20,6 +20,7 @@ stdenv.mkDerivation {
   apache_home = conveyor-apache;
   mysql_home = conveyor-mysql;
   php_http_conf = ./conf/php5.httpd.conf;
+  php_ini = ./conf/php.ini;
   
   buildInputs = [ gcc openssl db4 zlib ncurses libxml2 libpng libjpeg freetype curl libmcryptOverride libxslt libiconv gdbm libXpm gettext imagemagick icu bzip2 readline conveyor-apache conveyor-mysql ];
 
@@ -37,7 +38,6 @@ stdenv.mkDerivation {
 		    "--enable-intl"
 		    "--enable-zip"
 		    "--with-curl=${curl}"
-		    "--with-curlwrappers"
 		    "--with-zlib=${zlib}"
 		    "--with-libxml-dir=${libxml2}"
 		    "--with-readline=${readline}"
