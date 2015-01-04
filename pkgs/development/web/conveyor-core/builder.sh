@@ -52,16 +52,19 @@ if [[ ! -d $CC_DATABASES/conveyor ]]; then
     
     # First, we create or read the credentials.
     if [[ ! -f $ODB_CREDENTIALS ]]; then
-	ODB_USERNAME='admin'
+	echo "Generating OrientDB admin account..."
+	# Originally used 'admin', but in that case, the password is
+	# not updated as of 2.0-RC1 (issue https://github.com/orientechnologies/orientdb/issues/3329)
+	ODB_USERNAME='conveyor'
 	# TODO: See note re. 'uuidgen' above.
 	ODB_PASSWORD=`/usr/bin/uuidgen`
 
 	cat <<EOF > $ODB_CREDENTIALS
 ODB_USERNAME="$ODB_USERNAME"
-OBD_PASSWORD="$ODB_PASSWORD"
+ODB_PASSWORD="$ODB_PASSWORD"
 EOF
     else
-	source "$OBD_CREDENTIALS"
+	source "$ODB_CREDENTIALS"
     fi
 
     ORIENTDB_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
@@ -98,6 +101,9 @@ EOF
 
     # TODO: Hackish; try connect to server instead.
     sleep 4
+
+    echo "Creating core schema..."
+    "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/schema/conveyor.sh"
 
 elif [[ -f "$ODB_CREDENTIALS" ]]; then
     echo "ERROR: Found Conveyor (Orient)DB, but did not find '$ODB_CREDENTIALS'; no automated fix available." >&2
