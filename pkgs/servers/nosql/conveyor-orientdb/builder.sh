@@ -1,6 +1,7 @@
 source $stdenv/setup 1
 
-INSTALL_DIR=$out/conveyor-orientdb
+INSTALL_DIR="$out/conveyor-orientdb"
+PHP_CLIENT_DIR="$INSTALL_DIR/php-orient"
 DATA_DIR="$home/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
 RUNTIME_LINK="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
 
@@ -11,6 +12,8 @@ tar -xzf $src --strip 1
 mkdir $out/bin
 cp "$conveyor_bin/"* $out/bin
 cp "$orientdb_bin/"* $INSTALL_DIR/bin
+mkdir "$PHP_CLIENT_DIR"
+cp -a $client_src/* "$PHP_CLIENT_DIR"
 
 # Setup data directory.
 mkdir -p "$DATA_DIR"

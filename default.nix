@@ -12,8 +12,13 @@ rec {
     inherit (pkgs) stdenv patchelf fetchurl pkgconfig gcc openssl zlib perl cmake bison ncurses;
   };
 
-  conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
+  conveyor-composer = import ./pkgs/development/misc/conveyor-composer {
     inherit (pkgs) stdenv fetchurl;
+  };
+
+  conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
+    inherit (pkgs) stdenv fetchurl fetchFromGitHub;
+    inherit conveyor-composer;
   };
 
   conveyor-php = import ./pkgs/development/interpreters/conveyor-php {
