@@ -18,7 +18,7 @@ rec {
 
   conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
     inherit (pkgs) stdenv fetchurl fetchFromGitHub;
-    inherit conveyor-composer;
+    inherit conveyor-composer conveyor-php;
   };
 
   conveyor-php = import ./pkgs/development/interpreters/conveyor-php {

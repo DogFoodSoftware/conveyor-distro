@@ -76,5 +76,15 @@ rm "$SERVER_CONF".tmp
 
 chmod u-w $out
 
+# Install PHP client dependencies
+COMPOSER="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-composer/composer.phar"
+COMPOSER_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-composer/"
+cd "$PHP_CLIENT_DIR"
+export COMPOSER_HOME="$COMPOSER_DATA/home"
+export COMPOSER_VENDOR_DIR="$COMPOSER_DATA/vendor"
+export COMPOSER_BIN_DIR="$COMPOSER_DATA/vendor/bin"
+# The 'cacert-bundle.crt' loaded by PHP is conditioned on HOME.
+HOME=$home && php "$COMPOSER" --no-dev install
+
 rm -rf $RUNTIME_LINK
 ln -s $INSTALL_DIR $RUNTIME_LINK

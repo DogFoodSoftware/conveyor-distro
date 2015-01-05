@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, fetchFromGitHub, conveyor-composer }:
+{ stdenv, fetchurl, fetchFromGitHub, conveyor-composer, conveyor-php }:
 
 stdenv.mkDerivation rec {
   version = "2.0-RC1";
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
 
   home = builtins.getEnv "HOME";
   
-  buildInputs = [ conveyor-composer ];
+  buildInputs = [ conveyor-composer conveyor-php ];
 
   meta = {
     description = "OrientDB Server.";

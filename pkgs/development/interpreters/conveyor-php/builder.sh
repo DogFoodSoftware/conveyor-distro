@@ -63,6 +63,7 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 
 # Nix adds a hash to 'php_ini', but we need the name to be simple for
 # PHP.
+rm -f ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
 cp $php_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
 
 mkdir -p $DATA_DIR/data/logs
