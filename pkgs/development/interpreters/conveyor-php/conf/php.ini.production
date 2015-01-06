@@ -1,10 +1,10 @@
-# Need to tell PHP the timezone to use or we get warnings when
-# executing date funcitons.
+; Need to tell PHP the timezone to use or we get warnings when
+; executing date funcitons.
 date.timezone=UTC
-# cURL (and others?) need to know where root CA keys are; the nix
-# location is not automatically searched.
+; cURL (and others?) need to know where root CA keys are; the nix
+; location is not automatically searched.
 openssl.cafile=${HOME}/.nix-profile/etc/ca-bundle.crt
-# Various security and basic runtime tweaks.
+; Various security and basic runtime tweaks.
 expose_php=Off
 display_errors=Off
 log_errors=On

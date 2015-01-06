@@ -1,33 +1,28 @@
 { stdenv, fetchurl, gcc, perl, openssl, libiconv, gettext, zlib, readline, ncurses, libxslt, libmcrypt, libxml2, libpng, libjpeg, freetype, curl, icu, gdbm, db4, libXpm, imagemagick, bzip2, cacert, conveyor-apache, conveyor-mysql }:
 
 let
+  home = builtins.getEnv "HOME";
+  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/distro";
   libmcryptOverride = libmcrypt.override { disablePosixThreads = true; };
 in
 
 stdenv.mkDerivation {
   inherit perl;
+  inherit home test_path;
 
   name = "conveyor-php-5.6.4";
 
   builder = ./builder.sh;
   
-  php_src = fetchurl {
+  src = fetchurl {
     url = http://us1.php.net/get/php-5.6.4.tar.bz2/from/this/mirror;
     md5 = "d31629e9c2fb5f438ab2dc0aa597cd82";
   };
 
-  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/distro";
-  src = if builtins.pathExists test_path
-    then test_path
-    else fetchFromGitHub {
-      owner = "DogFoodSoftware";
-      repo = "conveyor-php";
-      # Following not updated yet
-      rev =  "db7fe244932ea77cf1438965693672ea12b33da8";
-      sha256 = "1a1567vpbjb8q71pxsr4kpnw1qvi9p7i61pky8mp4m27z4hh6h4r";
-    };
+  is_devel = if builtins.pathExists test_path
+    then true
+    else false;
 
-  home = builtins.getEnv "HOME";
   apache_home = conveyor-apache;
   mysql_home = conveyor-mysql;
   php_http_conf = ./conf/php5.httpd.conf;
@@ -69,6 +64,8 @@ stdenv.mkDerivation {
 		    "--with-bz2=${bzip2}"
 		    "--with-xsl=${libxslt}"
 		    "--with-mcrypt=${libmcrypt}"
+		    "--without-sqlite3"
+		    "--without-pdo-sqlite"
 		    ];
 
 #  configureFlags = ["--with-pgsql=${postgresql}"];

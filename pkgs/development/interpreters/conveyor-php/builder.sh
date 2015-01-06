@@ -2,7 +2,7 @@ source $stdenv/setup 1
 
 PATH=$perl/bin:$PATH
 
-tar xjf $php_src
+tar xjf $src
 
 BUILD_DIR="$out/conveyor-php"
 DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
@@ -49,12 +49,17 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 # ln -s $BUILD_DIR/modules/libphp5.so $APACHE_MODULES_DIR
 # cd ..
 
+# Two fixes for pear. 1): it appears to use '$HOME' somewhere as this
+# dies unless we set HOME. 2) For some reason, the 'http_proxy' was
+# getting set to 'http://nodtd.invalid/'.
+export HOME="$home"
+$BUILD_DIR/bin/pear config-set http_proxy ''
 $BUILD_DIR/bin/pear install mdb2
 # ./bin/pear install mdb2_driver_pgsql
 $BUILD_DIR/bin/pear install mdb2_driver_mysql
 
 rm -f ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
-if [[ $test_path == $src ]]; then # we are in development mode
+if [[ $is_devel == true ]]; then
     # Nix adds a hash to 'php_ini', but we need the name to be simple for
     # PHP.
     cp $php_ini_development ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
