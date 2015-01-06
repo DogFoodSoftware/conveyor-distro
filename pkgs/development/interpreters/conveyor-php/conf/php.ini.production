@@ -1,0 +1,14 @@
+# Need to tell PHP the timezone to use or we get warnings when
+# executing date funcitons.
+date.timezone=UTC
+# cURL (and others?) need to know where root CA keys are; the nix
+# location is not automatically searched.
+openssl.cafile=${HOME}/.nix-profile/etc/ca-bundle.crt
+# Various security and basic runtime tweaks.
+expose_php=Off
+display_errors=Off
+log_errors=On
+error_log=${HOME}/.conveyor/data/dogfoodsoftware.com/conveyor-php/data/logs/php_error.log
+max_execution_time = 15
+max_input_time = 30
+memory_limit = 32M

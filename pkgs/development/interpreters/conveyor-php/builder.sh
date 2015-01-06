@@ -2,7 +2,7 @@ source $stdenv/setup 1
 
 PATH=$perl/bin:$PATH
 
-tar xjf $src
+tar xjf $php_src
 
 BUILD_DIR="$out/conveyor-php"
 DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
@@ -40,14 +40,6 @@ if [ -f $APACHE_CONF_PATH/php.httpd.conf ]; then
 fi
 cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 
-# echo -e "\n\nA\n\n"
-# make install-binaries
-# echo -e "\n\nB\n\n"
-# make install-modules
-# echo -e "\n\nC\n\n"
-# make install-headers
-# echo -e "\n\nD\n\n"
-
 # Setup the PHP module for apache.
 # APACHE_MODULES_DIR=$APACHE_HOME/modules
 # mkdir ../modules
@@ -57,14 +49,18 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 # ln -s $BUILD_DIR/modules/libphp5.so $APACHE_MODULES_DIR
 # cd ..
 
-# ./bin/pear install mdb2
+$BUILD_DIR/bin/pear install mdb2
 # ./bin/pear install mdb2_driver_pgsql
-# ./bin/pear install mdb2_driver_mysql
+$BUILD_DIR/bin/pear install mdb2_driver_mysql
 
-# Nix adds a hash to 'php_ini', but we need the name to be simple for
-# PHP.
 rm -f ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
-cp $php_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
+if [[ $test_path == $src ]]; then # we are in development mode
+    # Nix adds a hash to 'php_ini', but we need the name to be simple for
+    # PHP.
+    cp $php_ini_development ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
+else
+    cp $php_ini_production ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
+fi
 
 mkdir -p $DATA_DIR/data/logs
 rm -f $RUNTIME_LINK

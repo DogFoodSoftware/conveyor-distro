@@ -115,6 +115,7 @@ EOF
 	rm "$SCHEMA_ODB".tmp
     done
 
+    # 'orientdb-console' will exit with non-0 even if everything fine. (2.0-RC1)
     orientdb-console "$SCHEMA_ODB" || true
 
 elif [[ -f "$ODB_CREDENTIALS" ]]; then
