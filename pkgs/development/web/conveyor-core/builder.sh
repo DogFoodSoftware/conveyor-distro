@@ -5,8 +5,6 @@ source $stdenv/setup 1
 INSTALL_DIR=$out/conveyor-core
 RUNTIME_LINK=$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
 
-dirname $INSTALL_DIR
-
 if [[ "$src" == "$test_path" ]]; then
     mkdir -p `dirname $INSTALL_DIR`
     ln -s $src $INSTALL_DIR
@@ -14,6 +12,7 @@ else
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
 fi
+ln -s $INSTALL_DIR $RUNTIME_LINK
 
 CONVEYOR_CORE_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
 CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core"
