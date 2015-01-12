@@ -20,6 +20,14 @@ stdenv.mkDerivation {
   
   buildInputs = [ gcc openssl zlib ];
 
+  configureFlags = [ "--enable-dav=shared"
+                     "--enable-dav-fs=shared"
+		     "--enable-ssl=shared"
+		     "--enable-so"
+		     "--enable-rewrite=shared"
+		     "--enable-deflate=shared"
+		     "--with-z=${zlib}" ];
+
   meta = {
     description = "Apache HTTP server.";
     homepage = http://httpd.apache.org/;

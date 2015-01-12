@@ -26,7 +26,7 @@ echo "Patching 'mysql' binary; with library path:"
 echo -e "\t$libPath"
 f=$out/bin/mysql
 patchelf \
-  --set-interpreter "$(cat $NIX_GCC/nix-support/dynamic-linker)" \
+  --set-interpreter "$(cat ${gcc_home}/nix-support/dynamic-linker)" \
   --set-rpath "$(patchelf --print-rpath "$f"):$libPath" \
   "$f"
 patchelf --shrink-rpath "$f"

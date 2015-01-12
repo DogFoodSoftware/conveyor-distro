@@ -22,11 +22,11 @@ stdenv.mkDerivation {
     license = "GPL";
   };
 
-  # 'gcc' points to the nix gcc wraper, 'gcc.gcc' points to the 'real'
-  #  underlying gcc package.
+  gcc_home = gcc;
 
+  # 'gcc' points to the nix wrapper; gcc.gcc points to the 'real' gcc.
   libPath = stdenv.lib.makeLibraryPath [
     ncurses
-    stdenv.gcc.gcc
+    gcc.gcc
   ];
 }

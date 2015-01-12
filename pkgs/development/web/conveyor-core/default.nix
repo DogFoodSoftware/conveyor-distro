@@ -11,9 +11,8 @@ stdenv.mkDerivation rec {
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
       repo = "conveyor-core";
-      # Following not updated yet
-      rev =  "db7fe244932ea77cf1438965693672ea12b33da8";
-      sha256 = "1a1567vpbjb8q71pxsr4kpnw1qvi9p7i61pky8mp4m27z4hh6h4r";
+      rev =  "155cc95b2e3fc242f66cf23c45218bb70e0cc131";
+      sha256 = "18x2rmdb64kzd8bnh3sfyyfla8yvhs8cz7d755277p01jcljlp6v";
     };
 
   builder = ./builder.sh;

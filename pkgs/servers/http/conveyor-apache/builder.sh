@@ -9,13 +9,8 @@ tar xjf $src
 
 cd httpd-*
 echo "Configuring..."
-./configure --prefix=$INSTALL_DIR \
-    --enable-dav=shared \
-    --enable-dav-fs=shared \
-    --enable-ssl=shared \
-    --enable-so \
-    --enable-rewrite=shared \
-    --enable-deflate=shared
+configureFlags="--prefix=$INSTALL_DIR $configureFlags"
+./configure $configureFlags
 echo "Compiling..."
 make
 echo "Installing..."
