@@ -26,8 +26,8 @@ configureFlags="--prefix=$BUILD_DIR \
                 --with-mysql=$mysql_home \
                 $configureFlags"
 echo "$configureFlags" > config_line
-./configure $configureFlags
-make
+GETTEXT_DIR=$gettext_home ./configure $configureFlags
+make -j 2
 # Need to allow write to the apache modules dir for the 'libphp5.so'
 # object file.
 chmod u+w ${apache_home}/conveyor-apache/modules

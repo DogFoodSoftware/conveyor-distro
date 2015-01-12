@@ -28,6 +28,7 @@ stdenv.mkDerivation {
   php_http_conf = ./conf/php5.httpd.conf;
   php_ini_production = ./conf/php.ini.production;
   php_ini_development = ./conf/php.ini.development;
+  gettext_home = gettext;
   
   buildInputs = [ gcc openssl db4 zlib ncurses libxml2 libpng libjpeg freetype curl libmcryptOverride libxslt libiconv gdbm libXpm gettext imagemagick icu bzip2 readline conveyor-apache conveyor-mysql ];
 
