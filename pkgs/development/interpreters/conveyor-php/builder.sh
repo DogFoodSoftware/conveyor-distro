@@ -66,6 +66,7 @@ if [[ $is_devel == true ]]; then
 else
     cp $php_ini_production ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
 fi
+cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/
 
 mkdir -p $DATA_DIR/data/logs
 rm -f $RUNTIME_LINK
