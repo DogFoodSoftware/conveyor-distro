@@ -12,12 +12,12 @@ make -j 2
 make install
 
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/distro-mysql/data
+mkdir -p $DATA_DIR
 
 chmod u+w $out
 chmod u+w $out/data
 mv $out/data $out/data.built
 ln -s $DATA_DIR $out/data
-chmod 755 $DATA_DIR/var
 chmod u-w $out
 chmod u-w $out/data.built
 
