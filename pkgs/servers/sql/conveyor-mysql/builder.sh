@@ -11,7 +11,7 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=$out
 make -j 2
 make install
 
-DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/distro-mysql/data
+DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-mysql/data
 mkdir -p $DATA_DIR
 
 chmod u+w $out
