@@ -26,7 +26,10 @@ configureFlags="--prefix=$BUILD_DIR \
                 --with-mysql=$mysql_home \
                 $configureFlags"
 echo "$configureFlags" > config_line
-GETTEXT_DIR=$gettext_home ./configure $configureFlags
+# This fixes a problem with PHP where it cannot find the glibc iconv
+# header file.
+export GETTEXT_DIR=$gettext_home
+./configure $configureFlags
 make -j 2
 # Need to allow write to the apache modules dir for the 'libphp5.so'
 # object file.

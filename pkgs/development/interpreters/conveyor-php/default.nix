@@ -61,8 +61,6 @@ stdenv.mkDerivation {
 		    "--with-gettext=${gettext}"
 		    "--with-openssl=${openssl}"
 		    "--with-iconv-dir=${libiconv}"
-# Seems to be error in the PHP setup; need both versions for iconv location.		    
-		    "--with-iconv=${libiconv}"
 		    "--with-bz2=${bzip2}"
 		    "--with-xsl=${libxslt}"
 		    "--with-mcrypt=${libmcrypt}"
