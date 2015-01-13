@@ -123,7 +123,7 @@ elif [[ ! -f "$ODB_CREDENTIALS" ]]; then
 fi
 
 mkdir $out/bin
-ln -s $out/conveyor-core/bin/con bin/con
+ln -s $out/conveyor-core/bin/con $out/bin/con
 
 exit 0;
 
