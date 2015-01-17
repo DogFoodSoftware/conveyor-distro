@@ -3,20 +3,25 @@ source $stdenv/setup 1
 
 # Always create package context to avoid name collisions.
 INSTALL_DIR=$out/conveyor-core
-RUNTIME_LINK=$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
+RUNTIME=$home/.conveyor/runtime
+RUNTIME_LINK=$RUNTIME/dogfoodsoftware.com/conveyor-core
+
+rm -f $RUNTIME_LINK
 
 if [[ "$src" == "$test_path" ]]; then
     mkdir -p `dirname $INSTALL_DIR`
     ln -s $src $INSTALL_DIR
+    ln -s $src $RUNTIME_LINK
 else 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
+    ln -s $INSTALL_DIR $RUNTIME_LINK
 fi
-ln -s $INSTALL_DIR $RUNTIME_LINK
 
 CONVEYOR_CORE_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
 CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core"
-CC_DATABASES="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/databases"
+CC_DATABASES="$CONVEYOR_CORE_DATA/databases"
+CC_DOCUMENTATION="$CONVEYOR_CORE_DATA/documentation"
 for DIR in "$home/.conveyor" \
            "$home/.conveyor/runtime" \
            "$home/.conveyor/runtime/dogfoodsoftware.com" \
@@ -24,7 +29,8 @@ for DIR in "$home/.conveyor" \
            "$home/.conveyor/data" \
            "$home/.conveyor/data/dogfoodsoftware.com" \
            "$CONVEYOR_CORE_DATA" \
-           "$CC_DATABASES"; do
+           "$CC_DATABASES" \
+           "$CC_DOCUMENTATION"; do
     # We do the check and create because the '-p' can mask problems. Since
     # we build from the bottom up, the 'create parents' effect is not
     # necessary.
@@ -36,10 +42,6 @@ done
 if [ ! -f "$home/.conveyor/host-id" ]; then
     # TODO: Cheating! 'uuidgen' not part of the nixpkgs at this time.
     /usr/bin/uuidgen > "$home/.conveyor/host-id"
-fi
-
-if [[ ! -d $CC_DATABASES ]]; then
-    mkdir "$CC_DATABASES"
 fi
 
 ODB_CREDENTIALS="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/odb-credentials"
@@ -121,6 +123,18 @@ elif [[ ! -f "$ODB_CREDENTIALS" ]]; then
     echo "ERROR: Found Conveyor (Orient)DB, but did not find '$ODB_CREDENTIALS'; no automated fix available." >&2
     exit 2 
 fi
+
+rm -f $CC_DOCUMENTATION/runtime
+ln -s $RUNTIME $CC_DOCUMENTATION/runtime
+# TODO: replace this with documentation mount request; also, make
+# recursive, creating hard dirs and soft file links.
+mkdir -p $CC_DOCUMENTATION/help
+for i in `ls $INSTALL_DIR/documentation/help`; do
+    if [ -f "$INSTALL_DIR/documentation/help/$i" ]; then
+	rm -f "$CC_DOCUMENTATION/help/$i"
+	ln -s "$INSTALL_DIR/documentation/help/$i" "$CC_DOCUMENTATION/help/$i"
+    fi
+done
 
 mkdir $out/bin
 ln -s $out/conveyor-core/bin/con $out/bin/con
