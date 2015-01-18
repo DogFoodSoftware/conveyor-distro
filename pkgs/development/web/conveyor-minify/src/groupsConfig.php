@@ -6,13 +6,14 @@ $host = $_SERVER['SERVER_NAME'];
 // Check to see if this is 'localhost' access. In that case, we expect
 // to find a single, non-special http configuration file.
 # TODO: reference doc
-error_log("HOST IS: |".$host."|");
 if ($host == 'localhost' || preg_match('/(\d{1,3}\.){2}\d{1,3}/', $host)) {
     $file_list = glob('/home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/*.httpd.conf');
+    ob_start();
+    $dump = ob_get_contents();
     $default_site_conf = null;
     foreach ($file_list as $file) {
         $file = basename($file);
-        if (!preg_match('/^__/', $file)) {
+        if (preg_match('/^([\w\.-]+\.([a-z]+))\.httpd\.conf$/', $file)) {
             if ($default_site_conf == null) {
                 $default_site_conf = $file;
             }
@@ -22,11 +23,12 @@ if ($host == 'localhost' || preg_match('/(\d{1,3}\.){2}\d{1,3}/', $host)) {
             }
         }
     }
+    if (empty($default_site_conf)) {
+        error_log("Did not find default domain.");
+    }
 
     $domain = 
         substr($default_site_conf, 0, strlen($default_site_conf) - 11);
-        error_log("domain: $domain");
-
 }
 else { # Not 'localhost'
     $host_bits = explode('.', $host);
