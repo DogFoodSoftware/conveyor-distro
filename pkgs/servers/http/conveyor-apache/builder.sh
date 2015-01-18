@@ -56,11 +56,7 @@ mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf-inc
 mkdir -p $DATA_DIR/misc # What's this for?
 mkdir -p $DATA_DIR/ssl
-# 'htdocs' to be removed; replaced by 'conveyor-host' package.
 mkdir -p $DATA_DIR/htdocs
-mv ./htdocs/* $DATA_DIR/htdocs
-rmdir ./htdocs
-ln -s $DATA_DIR/htdocs htdocs
 
 # We want logs to be both standard and durable, so we create
 # our own and then symlink the directory in the nix installation.
