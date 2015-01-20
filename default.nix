@@ -47,6 +47,11 @@ rec {
     inherit conveyor-orientdb;
   };
 
+  conveyor-standards = import ./pkgs/data/documentation/conveyor-standards {
+    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit conveyor-core;
+  };
+
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
     inherit (pkgs) stdenv fetchzip;
   };
