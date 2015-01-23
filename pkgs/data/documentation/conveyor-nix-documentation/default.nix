@@ -1,8 +1,8 @@
 { stdenv, fetchFromGitHub, conveyor-core }:
 
 stdenv.mkDerivation rec {
-  version = "0.1.3-PRE";
   bare-name = "nix-documentation";
+  version = "0.1.3-PRE";
   name = "conveyor-${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
@@ -12,8 +12,8 @@ stdenv.mkDerivation rec {
     then test_path
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
-      repo = "${bare-name}";
       # These values are bogus.
+      repo = "${name}";
       rev =  "155cc95b2e3fc242f66cf23c45218bb70e0cc131";
       sha256 = "18x2rmdb64kzd8bnh3sfyyfla8yvhs8cz7d755277p01jcljlp6v";
     };

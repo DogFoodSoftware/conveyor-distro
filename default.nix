@@ -57,6 +57,11 @@ rec {
     inherit conveyor-core;
   };
 
+  conveyor-stack-documentation = import ./pkgs/data/documentation/conveyor-stack-documentation {
+    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit conveyor-core conveyor-nix-documentation;
+  };
+
   conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
     inherit (pkgs) stdenv fetchzip;
   };
