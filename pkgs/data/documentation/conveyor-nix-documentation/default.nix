@@ -1,8 +1,8 @@
 { stdenv, fetchFromGitHub, conveyor-core }:
 
 stdenv.mkDerivation rec {
-  version = "1.0-PRE";
-  bare-name = "nix-primer";
+  version = "0.1.3-PRE";
+  bare-name = "nix-documentation";
   name = "conveyor-${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
@@ -52,9 +52,10 @@ stdenv.mkDerivation rec {
 
       for i in `ls $DIR`; do
         if [[ -d $i ]]; then
-	  mkdir "$TARGET_DIR/$i"
+	  mkdir -p "$TARGET_DIR/$i"
 	  link_docs "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
 	else
+	  rm -f "$TARGET_DIR/$i"
 	  ln -s "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
 	fi
       done

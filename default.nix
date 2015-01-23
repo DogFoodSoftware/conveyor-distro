@@ -52,7 +52,7 @@ rec {
     inherit conveyor-core;
   };
 
-  conveyor-nix-primer = import ./pkgs/data/documentation/conveyor-nix-primer {
+  conveyor-nix-documentation = import ./pkgs/data/documentation/conveyor-nix-documentation {
     inherit (pkgs) stdenv fetchFromGitHub;
     inherit conveyor-core;
   };
