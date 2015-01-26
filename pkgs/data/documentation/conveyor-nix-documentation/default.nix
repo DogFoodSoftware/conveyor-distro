@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   bare-name = "nix-documentation";
-  version = "0.1.3-PRE";
+  version = "0.1.4-PRE";
   name = "conveyor-${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
