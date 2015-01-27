@@ -24,6 +24,7 @@ stdenv.mkDerivation rec {
   conf = ./conf;
 
   home = builtins.getEnv "HOME";
+  conveyor_composer = conveyor-composer;
   
   buildInputs = [ conveyor-composer conveyor-php ];
 

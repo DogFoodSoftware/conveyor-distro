@@ -3,7 +3,6 @@ source $stdenv/setup 1
 INSTALL_DIR="$out/conveyor-orientdb"
 PHP_CLIENT_DIR="$INSTALL_DIR/php-orient"
 DATA_DIR="$home/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
-RUNTIME_LINK="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
 
 # Install program files and our own control scripts.
 mkdir -p $INSTALL_DIR
@@ -66,7 +65,7 @@ cp "$conf/"* "$DATA_DIR/conf"
 # property cannot be resolved. So we hard code, but still want to
 # respect the home of the user and not assume anything on that
 # point. So we read the file and rewrite doing our own substitition.
-ORIENTDB_HOME="$RUNTIME_LINK"
+ORIENTDB_HOME="$INSTALL_DIR"
 SERVER_CONF="$DATA_DIR/conf/orientdb-server-config.xml"
 # TODO: I thought in-place replacement of file possible, but seemed to
 # produce an error.
@@ -77,7 +76,7 @@ rm "$SERVER_CONF".tmp
 chmod u-w $out
 
 # Install PHP client dependencies
-COMPOSER="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-composer/composer.phar"
+COMPOSER="${conveyor_composer}/conveyor-composer/composer.phar"
 COMPOSER_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-composer/"
 cd "$PHP_CLIENT_DIR"
 export COMPOSER_HOME="$COMPOSER_DATA/home"
@@ -86,5 +85,3 @@ export COMPOSER_BIN_DIR="$COMPOSER_DATA/vendor/bin"
 # The 'cacert-bundle.crt' loaded by PHP is conditioned on HOME.
 HOME=$home && php "$COMPOSER" --no-dev install
 
-rm -rf $RUNTIME_LINK
-ln -s $INSTALL_DIR $RUNTIME_LINK

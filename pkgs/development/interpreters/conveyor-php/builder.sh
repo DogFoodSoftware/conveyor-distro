@@ -5,8 +5,6 @@ PATH=$perl/bin:$PATH
 tar xjf $src
 
 BUILD_DIR="$out/conveyor-php"
-DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
-RUNTIME_LINK="$DFS_RUNTIME/conveyor-php"
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
@@ -22,7 +20,7 @@ cd php-*
 # nix supplied libraries.
 configureFlags="--prefix=$BUILD_DIR \
                 --with-config-file-path=$DATA_DIR/conf \
-                --with-apxs2=$DFS_RUNTIME/conveyor-apache/bin/apxs \
+                --with-apxs2=${apache_home}/conveyor-apache/bin/apxs \
                 --with-mysql=$mysql_home \
                 $configureFlags"
 echo "$configureFlags" > config_line
@@ -72,6 +70,3 @@ fi
 cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/
 
 mkdir -p $DATA_DIR/data/logs
-rm -f $RUNTIME_LINK
-ln -s $BUILD_DIR $RUNTIME_LINK
-ln -s $BUILD_DIR/bin $out/bin

@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     then test_path
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
-      repo = "${name}";
+      repo = "${bare-name}";
       # These values are bogus.
       rev =  "155cc95b2e3fc242f66cf23c45218bb70e0cc131";
       sha256 = "18x2rmdb64kzd8bnh3sfyyfla8yvhs8cz7d755277p01jcljlp6v";
@@ -24,7 +24,6 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     INSTALL_DIR=$out/$name
-    RUNTIME_LINK=$home/.conveyor/runtime/dogfoodsoftware.com/${name}
 
     if [[ $test_path == $src ]]; then
       mkdir -p $out
@@ -33,11 +32,6 @@ stdenv.mkDerivation rec {
       mkdir -p $INSTALL_DIR
       cp -a $src/* $INSTALL_DIR
     fi
-
-    echo "Creating runtime link..."
-    mkdir -p `basename $RUNTIME_LINK`
-    rm -f $RUNTIME_LINK
-    ln -s $INSTALL_DIR $RUNTIME_LINK
 
     # For now, we manually finagle the documentation database. In
     # future, this will be done with something like:

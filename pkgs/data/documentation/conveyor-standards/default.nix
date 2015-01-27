@@ -23,7 +23,6 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     INSTALL_DIR=$out/$name
-    RUNTIME_LINK=$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-standards
 
     if [[ $test_path == $src ]]; then
       mkdir -p $out
@@ -32,11 +31,6 @@ stdenv.mkDerivation rec {
       mkdir -p $INSTALL_DIR
       cp -a $src/* $INSTALL_DIR
     fi
-
-    echo "Creating runtime link..."
-    mkdir -p `basename $RUNTIME_LINK`
-    rm -f $RUNTIME_LINK
-    ln -s $INSTALL_DIR $RUNTIME_LINK
 
     # For now, we manually finagle the documentation database. In
     # future, this will be done with something like:

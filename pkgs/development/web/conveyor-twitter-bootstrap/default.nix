@@ -20,9 +20,6 @@ stdenv.mkDerivation rec {
 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
-    mkdir -p /home/user/.conveyor/runtime/dogfoodsoftware.com
-    rm -f /home/user/.conveyor/runtime/dogfoodsoftware.com//conveyor-twitter-bootstrap
-    ln -s $out/conveyor-twitter-bootstrap /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-twitter-bootstrap
 
     # mkdir -p $out/css $out/js
     # closure-compiler --js $src/js/*.js > $out/js/bootstrap.js

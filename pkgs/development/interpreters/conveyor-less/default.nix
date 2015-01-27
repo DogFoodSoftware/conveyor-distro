@@ -12,7 +12,6 @@ stdenv.mkDerivation rec {
   installPhase = ''
     # Always create package context to avoid name collisions.
     INSTALL_DIR=$out/conveyor-less
-    RUNTIME_LINK=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-less
 
     mkdir -p $INSTALL_DIR
     cd $INSTALL_DIR

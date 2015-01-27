@@ -2,29 +2,21 @@
 source $stdenv/setup 1
 
 # Always create package context to avoid name collisions.
-INSTALL_DIR=$out/conveyor-core
-RUNTIME=$home/.conveyor/runtime
-RUNTIME_LINK=$RUNTIME/dogfoodsoftware.com/conveyor-core
-
-rm -f $RUNTIME_LINK
+INSTALL_DIR=$out/conveyor/${domain_name}/${bare_name}
 
 if [[ "$src" == "$test_path" ]]; then
     mkdir -p `dirname $INSTALL_DIR`
     ln -s $src $INSTALL_DIR
-    ln -s $src $RUNTIME_LINK
 else 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
-    ln -s $INSTALL_DIR $RUNTIME_LINK
 fi
 
-CONVEYOR_CORE_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
-CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core"
+CONVEYOR_CORE_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/${bare_name}"
+CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/${bare_name}"
 CC_DATABASES="$CONVEYOR_CORE_DATA/databases"
 CC_DOCUMENTATION="$CONVEYOR_CORE_DATA/documentation"
 for DIR in "$home/.conveyor" \
-           "$home/.conveyor/runtime" \
-           "$home/.conveyor/runtime/dogfoodsoftware.com" \
            "$CONVEYOR_CORE_HOME" \
            "$home/.conveyor/data" \
            "$home/.conveyor/data/dogfoodsoftware.com" \
@@ -38,6 +30,9 @@ for DIR in "$home/.conveyor" \
 	mkdir "$DIR"
     fi
 done
+
+rm -f $home/.conveyor/runtime
+ln -s $home/.nix-profile/conveyor $home/.conveyor/runtime
 
 if [ ! -f "$home/.conveyor/host-id" ]; then
     # TODO: Cheating! 'uuidgen' not part of the nixpkgs at this time.
@@ -138,22 +133,3 @@ done
 
 mkdir $out/bin
 ln -s $out/conveyor-core/bin/con $out/bin/con
-
-exit 0;
-
-# TODO: Old code...
-
-if [ x"$BRANCH" != x"" ]; then
-    git clone $CONVEYOR_REPO --branch $BRANCH core
-    RESULT=$?
-else
-    git clone $CONVEYOR_REPO core
-    RESULT=$?
-fi
-
-if [ $RESULT -ne 0 ]; then
-    echo "Clone of the Conveyor repo failed." >&2
-    exit 1
-fi
-
-$CONVEYOR_HOME/core/bin/conveyor-project-install 

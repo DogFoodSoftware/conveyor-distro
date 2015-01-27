@@ -18,7 +18,6 @@ stdenv.mkDerivation rec {
   installPhase = ''
     # Always create package context to avoid name collisions.
     INSTALL_DIR=$out/conveyor-minify
-    RUNTIME_LINK=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-minify
 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
@@ -29,11 +28,6 @@ stdenv.mkDerivation rec {
       chmod u-w $INSTALL_DIR/min/$i
     done
     
-    echo "Creating runtime link..."
-    mkdir -p `basename $RUNTIME_LINK`
-    rm -f $RUNTIME_LINK
-    ln -s $INSTALL_DIR $RUNTIME_LINK
-
     echo "Creatng / updating configuration..."
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf

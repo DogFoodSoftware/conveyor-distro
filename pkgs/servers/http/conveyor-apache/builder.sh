@@ -1,7 +1,6 @@
 source $stdenv/setup 1
 
 INSTALL_DIR=$out/conveyor-apache
-RUNTIME_LINK=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache
 
 PATH=$perl/bin:$PATH
 
@@ -15,11 +14,6 @@ echo "Compiling..."
 make
 echo "Installing..."
 make install
-
-echo "Creating runtime link..."
-mkdir -p `basename $RUNTIME_LINK`
-rm -f $RUNTIME_LINK
-ln -s $INSTALL_DIR $RUNTIME_LINK
 
 # Set up the static Conveyor-Stack configuration for Apache.
 cd $INSTALL_DIR
@@ -44,10 +38,9 @@ cp $httpdMime ./conf/mime.types
 mv conf/magic conf/magic.built
 cp $httpdMagic ./conf/magic
 
-# Setup the Conveyor runtime directories. Note '$home', not $HOME. Rather
-# than use 'impure' vars (imported from the environment used to launch
-# nix), the 'home' is an argument provided by the nix installation
-# expression.
+# Note '$home', not $HOME. Rather than use 'impure' vars (imported
+# from the environment used to launch nix), the 'home' is an argument
+# provided by the nix installation expression.
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/
 # Note, the data dir may already exist; for instance, the package was
 # deleted then re-installed from nix.
