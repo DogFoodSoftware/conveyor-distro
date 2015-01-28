@@ -67,7 +67,8 @@ if [[ $is_devel == true ]]; then
 else
     cp $php_ini_production ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
 fi
-cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/
+rm -f ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php-cli.ini
+cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php-cli.ini
 
 mkdir -p $DATA_DIR/data/logs
 ln -s $INSTALL_DIR/bin $out/bin
