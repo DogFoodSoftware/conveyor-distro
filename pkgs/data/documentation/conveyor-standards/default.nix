@@ -1,17 +1,19 @@
 { stdenv, fetchFromGitHub, conveyor-core }:
 
 stdenv.mkDerivation rec {
+  domain = "dogfoodsoftware.com";
   version = "1.0-PRE";
-  name = "conveyor-standards-${version}";
+  bare-name = "conveyor-standards";
+  name = "${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
 
-  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/conveyor/standards";
+  test_path = builtins.toPath home + "/playground/${domain}/${bare-name}";
   src = if builtins.pathExists test_path
     then test_path
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
-      repo = "conveyor-standards";
+      repo = "${bare-name}";
       # These values are bogus.
       rev =  "155cc95b2e3fc242f66cf23c45218bb70e0cc131";
       sha256 = "18x2rmdb64kzd8bnh3sfyyfla8yvhs8cz7d755277p01jcljlp6v";
