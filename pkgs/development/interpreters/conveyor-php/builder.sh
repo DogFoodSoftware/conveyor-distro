@@ -4,7 +4,7 @@ PATH=$perl/bin:$PATH
 
 tar xjf $src
 
-INSTALL_DIR="$out/conveyor-php"
+INSTALL_DIR="$out/conveyor/conveyor-php"
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
