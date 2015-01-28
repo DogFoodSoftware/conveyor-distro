@@ -4,7 +4,7 @@ PATH=$perl/bin:$PATH
 
 tar xjf $src
 
-BUILD_DIR="$out/conveyor-php"
+INSTALL_DIR="$out/conveyor-php"
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
@@ -18,7 +18,7 @@ cd php-*
 
 # The bulk of the flags come from the nix expression; these locate the
 # nix supplied libraries.
-configureFlags="--prefix=$BUILD_DIR \
+configureFlags="--prefix=$INSTALL_DIR \
                 --with-config-file-path=$DATA_DIR/conf \
                 --with-apxs2=${apache_home}/conveyor-apache/bin/apxs \
                 --with-mysql=$mysql_home \
@@ -47,17 +47,17 @@ cp "$php_http_conf" $APACHE_CONF_PATH/php.httpd.conf
 # cp -p .libs/libphp5.so ../modules
 # mkdir -p $APACHE_MODULES_DIR
 # rm $APACHE_MODULES_DIR/libphp5.so
-# ln -s $BUILD_DIR/modules/libphp5.so $APACHE_MODULES_DIR
+# ln -s $INSTALL_DIR/modules/libphp5.so $APACHE_MODULES_DIR
 # cd ..
 
 # Two fixes for pear. 1): it appears to use '$HOME' somewhere as this
 # dies unless we set HOME. 2) For some reason, the 'http_proxy' was
 # getting set to 'http://nodtd.invalid/'.
 export HOME="$home"
-$BUILD_DIR/bin/pear config-set http_proxy ''
-$BUILD_DIR/bin/pear install mdb2
+$INSTALL_DIR/bin/pear config-set http_proxy ''
+$INSTALL_DIR/bin/pear install mdb2
 # ./bin/pear install mdb2_driver_pgsql
-$BUILD_DIR/bin/pear install mdb2_driver_mysql
+$INSTALL_DIR/bin/pear install mdb2_driver_mysql
 
 rm -f ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php.ini
 if [[ $is_devel == true ]]; then
@@ -70,3 +70,4 @@ fi
 cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/
 
 mkdir -p $DATA_DIR/data/logs
+ln -s $INSTALL_DIR/bin $out/bin
