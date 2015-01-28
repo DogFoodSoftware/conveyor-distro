@@ -8,6 +8,7 @@ INSTALL_DIR="$out/conveyor/conveyor-php"
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
+APACHE_PATH="${apache_home}/conveyor/conveyor-apache"
 
 cd php-*
 #conditionally include the postgres headers
@@ -20,7 +21,7 @@ cd php-*
 # nix supplied libraries.
 configureFlags="--prefix=$INSTALL_DIR \
                 --with-config-file-path=$DATA_DIR/conf \
-                --with-apxs2=${apache_home}/conveyor/conveyor-apache/bin/apxs \
+                --with-apxs2=${APACHE_PATH}/bin/apxs \
                 --with-mysql=${mysql_home}/conveyor/conveyor-mysql \
                 $configureFlags"
 echo "$configureFlags" > config_line
@@ -31,9 +32,9 @@ export GETTEXT_DIR=$gettext_home
 make -j 2
 # Need to allow write to the apache modules dir for the 'libphp5.so'
 # object file.
-chmod u+w ${apache_home}/conveyor-apache/modules
+chmod u+w "${apache_path}/modules"
 make install
-chmod u-w ${apache_home}/conveyor-apache/modules
+chmod u-w "${apache_path}/modules"
 APACHE_CONF_PATH=/home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc
 if [ -f $APACHE_CONF_PATH/php.httpd.conf ]; then
     chmod u+w $APACHE_CONF_PATH/php.httpd.conf
