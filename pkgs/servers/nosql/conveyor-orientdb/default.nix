@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
     owner = "Ostico";
     repo = "PhpOrient";
     rev = "9be2f69dedfbc5a6edf49d4306310927b66f8098";
-    sha256 = "1nlz4c4ryzsikc7bbhzlz4di616mmaavi6gywgql4srsbqs7cyjq";
+    sha256 = "0hykhphy4b2m5r7wfshp07ajsqbkrcjqgjhn513d3r0aqg66db4w";
   };
 
   conveyor_bin = ./bin;
