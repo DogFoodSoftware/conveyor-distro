@@ -12,12 +12,10 @@ else
     cp -a $src/* $INSTALL_DIR
 fi
 
-CONVEYOR_CORE_HOME="$home/.conveyor/runtime/dogfoodsoftware.com/${bare_name}"
 CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/${bare_name}"
 CC_DATABASES="$CONVEYOR_CORE_DATA/databases"
 CC_DOCUMENTATION="$CONVEYOR_CORE_DATA/documentation"
 for DIR in "$home/.conveyor" \
-           "$CONVEYOR_CORE_HOME" \
            "$home/.conveyor/data" \
            "$home/.conveyor/data/dogfoodsoftware.com" \
            "$CONVEYOR_CORE_DATA" \
@@ -31,6 +29,7 @@ for DIR in "$home/.conveyor" \
     fi
 done
 
+echo "Linking nix profile into conveyor runtime..."
 rm -f $home/.conveyor/runtime
 ln -s $home/.nix-profile/conveyor $home/.conveyor/runtime
 
