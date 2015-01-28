@@ -9,13 +9,13 @@ stdenv.mkDerivation rec {
   src = fetchurl {
     url = "http://www.orientechnologies.com/download.php?email=unknown@unknown.com&file=orientdb-community-2.0.tar.gz&os=linux";
     name = "orientdb-${version}.tar.gz";
-    md5 = "9b762c782a76ba64c65d41e9e46ba469";
+    md5 = "0f125aa92dd23a52bcc49737970e0dce";
   };
 
   client_src = fetchFromGitHub {
     owner = "Ostico";
     repo = "PhpOrient";
-    rev = "4a56e38c9eaa7c4c1fd5748b43c27fc4df356eb4";
+    rev = "9be2f69dedfbc5a6edf49d4306310927b66f8098";
     sha256 = "1nlz4c4ryzsikc7bbhzlz4di616mmaavi6gywgql4srsbqs7cyjq";
   };
 
