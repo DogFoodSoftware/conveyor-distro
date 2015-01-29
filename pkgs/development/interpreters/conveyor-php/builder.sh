@@ -22,7 +22,7 @@ cd php-*
 configureFlags="--prefix=$INSTALL_DIR \
                 --with-config-file-path=$DATA_DIR/conf \
                 --with-apxs2=${APACHE_PATH}/bin/apxs \
-                --with-mysql=${mysql_home}/conveyor/conveyor-mysql \
+                --with-mysql=${mysql_home}/conveyor/dogfoodsoftware.com/conveyor-mysql \
                 $configureFlags"
 echo "$configureFlags" > config_line
 # This fixes a problem with PHP where it cannot find the glibc iconv
