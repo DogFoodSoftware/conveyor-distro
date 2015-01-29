@@ -6,16 +6,19 @@ let
   libmcryptOverride = libmcrypt.override { disablePosixThreads = true; };
 in
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   inherit perl;
   inherit home test_path;
 
-  name = "conveyor-php-5.6.4";
+  domain_name = "dogfoodsoftware.com";
+  bare_name = "conveyor-php";
+  version = "5.6.4";
+  name = "${bare_name}-${version}";
 
   builder = ./builder.sh;
   
   src = fetchurl {
-    url = http://us1.php.net/get/php-5.6.4.tar.bz2/from/this/mirror;
+    url = http://us1.php.net/get/php-${version}.tar.bz2/from/this/mirror;
     md5 = "d31629e9c2fb5f438ab2dc0aa597cd82";
   };
 

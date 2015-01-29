@@ -3,7 +3,10 @@
 stdenv.mkDerivation {
   inherit perl;
 
-  name = "conveyor-apache-2.2.26";
+  domain_name = "dogfoodsoftware.com";
+  bare_name = "conveyor-apache";
+  version = "2.2.26";
+  name = "${bare_name}-${version}";
 
   builder = ./builder.sh;
   

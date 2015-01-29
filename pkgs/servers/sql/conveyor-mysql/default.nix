@@ -3,12 +3,15 @@
 stdenv.mkDerivation {
   inherit perl;
 
-  name = "conveyor-mysql-5.6.22";
+  domain_name = "dogfoodsoftware.com";
+  bare_name = "conveyor-mysql";
+  version = "5.6.22";
+  name = "${bare_name}-${version};
 
   builder = ./builder.sh;
   
   src = fetchurl {
-    url = http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.22.tar.gz;
+    url = http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-${version}.tar.gz;
     md5 = "3985b634294482363f3d87e0d67f2262";
   };
 

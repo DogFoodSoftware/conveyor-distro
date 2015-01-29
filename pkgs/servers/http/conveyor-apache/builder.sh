@@ -1,6 +1,6 @@
 source $stdenv/setup 1
 
-INSTALL_DIR=$out/conveyor/conveyor-apache
+INSTALL_DIR="$out/conveyor/${domain_name}/${bare_name}"
 
 PATH=$perl/bin:$PATH
 

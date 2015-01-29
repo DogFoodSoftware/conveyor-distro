@@ -1,7 +1,6 @@
 # Nix builder script; no '#!'
 source $stdenv/setup 1
 
-# Always create package context to avoid name collisions.
 INSTALL_DIR=$out/conveyor/${domain_name}/${bare_name}
 
 if [[ "$src" == "$test_path" ]]; then
