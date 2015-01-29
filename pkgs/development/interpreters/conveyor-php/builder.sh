@@ -32,9 +32,9 @@ export GETTEXT_DIR=$gettext_home
 make -j 2
 # Need to allow write to the apache modules dir for the 'libphp5.so'
 # object file.
-chmod u+w "${apache_path}/modules"
+chmod u+w "${APACHE_PATH}/modules"
 make install
-chmod u-w "${apache_path}/modules"
+chmod u-w "${APACHE_PATH}/modules"
 APACHE_CONF_PATH=/home/user/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc
 if [ -f $APACHE_CONF_PATH/php.httpd.conf ]; then
     chmod u+w $APACHE_CONF_PATH/php.httpd.conf
