@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
   builder = ./builder.sh;
   
   src = fetchurl {
-    url = http://us1.php.net/get/php-${version}.tar.bz2/from/this/mirror;
+    url = "http://us1.php.net/get/php-${version}.tar.bz2/from/this/mirror";
     md5 = "d31629e9c2fb5f438ab2dc0aa597cd82";
   };
 
