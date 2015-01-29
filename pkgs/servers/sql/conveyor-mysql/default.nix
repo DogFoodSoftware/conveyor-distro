@@ -1,6 +1,6 @@
 { stdenv, fetchurl, perl, pkgconfig, gcc, openssl, zlib, cmake, bison, ncurses, patchelf }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   inherit perl;
 
   domain_name = "dogfoodsoftware.com";
