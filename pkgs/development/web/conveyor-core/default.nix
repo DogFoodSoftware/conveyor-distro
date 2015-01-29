@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
       owner = "DogFoodSoftware";
       repo = "${bare-name}";
       rev =  "5e0e3d261d98ebf4e2af1b815eea9cfb0122a22d";
-      sha256 = "0zycbra3490w91plxhlkfp910if7krn36ncm7ccqx6lqh4yn41w2";
+      sha256 = "0zpvnnb8a699bcjr1ywn7dyz0m40m31iqfs6s68j82kybcv5i27s";
     };
 
   domain_name = domain-name;
