@@ -22,16 +22,12 @@ for i in $obin_patches; do
     BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+\.sh).*|$1|'`
     patch "$INSTALL_DIR/bin/${BASE_NAME}" "$i"
 done
-exit 0
-
-mkdir "$PHP_CLIENT_DIR"
-cp -a $client_src/* "$PHP_CLIENT_DIR"
 
 # Setup data directory.
 mkdir -p "$DATA_DIR"
 
 # TODO: move this to conveyor-core install lib.
-function move_dir() {
+function make_data_dir() {
     SRC="$INSTALL_DIR/$1"
     TARGET="$DATA_DIR/$2"
 
@@ -57,9 +53,9 @@ function move_dir() {
     ln -s "$TARGET" "$SRC"
 }
 
-move_dir log log
-move_dir config conf
-move_dir databases databases
+make_data_dir log log
+make_data_dir config conf
+make_data_dir databases databases
 # TODO: We're doing this because OrientDB really wants to put the
 # console history in the bin directory and reasonable googling has
 # failed to turn up configuration to say otherwise. May need to submit
@@ -68,7 +64,7 @@ move_dir databases databases
 # script... and besides that would break out 'runtime inviolate'
 # rule. So, until we find a way to configure that out, we have to move
 # the 'bin'.
-move_dir bin bin
+make_data_dir bin bin
 chmod u+w "$DATA_DIR/bin"
 chmod u+w "$DATA_DIR/conf/"*
 cp "$conf/"* "$DATA_DIR/conf"
@@ -91,6 +87,8 @@ chmod u-w $out
 # Install PHP client dependencies
 COMPOSER="${conveyor_composer}/conveyor-composer/composer.phar"
 COMPOSER_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-composer/"
+mkdir "$PHP_CLIENT_DIR"
+cp -a $client_src/* "$PHP_CLIENT_DIR"
 cd "$PHP_CLIENT_DIR"
 export COMPOSER_HOME="$COMPOSER_DATA/home"
 export COMPOSER_VENDOR_DIR="$COMPOSER_DATA/vendor"
