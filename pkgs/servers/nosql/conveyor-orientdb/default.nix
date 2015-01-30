@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, fetchFromGitHub, conveyor-composer, conveyor-php }:
+{ stdenv, patch, perl, fetchurl, fetchFromGitHub, conveyor-composer, conveyor-php }:
 
 stdenv.mkDerivation rec {
   domain_name = "dogfoodsoftware.com";
@@ -21,6 +21,7 @@ stdenv.mkDerivation rec {
     sha256 = "0hykhphy4b2m5r7wfshp07ajsqbkrcjqgjhn513d3r0aqg66db4w";
   };
 
+  bin_patches = [ ./patches/orientdb.patch ];
   conveyor_bin = ./bin;
   orientdb_bin = ./bin-orientdb;
   conf = ./conf;
@@ -28,7 +29,7 @@ stdenv.mkDerivation rec {
   home = builtins.getEnv "HOME";
   conveyor_composer = conveyor-composer;
   
-  buildInputs = [ conveyor-composer conveyor-php ];
+  buildInputs = [ patch perl conveyor-composer conveyor-php ];
 
   meta = {
     description = "OrientDB Server.";

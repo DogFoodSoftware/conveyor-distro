@@ -1,0 +1,59 @@
+--- orientdb-community-2.0/bin/orientdb.sh	2015-01-20 16:41:19.000000000 +0000
++++ bin/orientdb	2015-01-30 16:13:29.814906785 +0000
+@@ -1,11 +1,16 @@
+-#!/bin/sh
+-# OrientDB service script
++#!/bin/bash
+ #
+ # Copyright (c) Orient Technologies LTD (http://www.orientechnologies.com)
++#
++# Based on 'orientdb.sh', but suitable for non-root users. Also
++# configured for standard conveyor setup.
++if [ ! -z ${stdenv+x} ]; then #if $stdenv set
++    HOME="$home"
++fi
+ 
+-# You have to SET the OrientDB installation directory here
+-ORIENTDB_DIR="YOUR_ORIENTDB_INSTALLATION_PATH"
+-ORIENTDB_USER="USER_YOU_WANT_ORIENTDB_RUN_WITH"
++ORIENTDB_DIR="$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
++DATA_DIR="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
++LOG_DIR="$DATA_DIR/log"
+ 
+ usage() {
+ 	echo "Usage: `basename $0`: <start|stop|status>"
+@@ -13,7 +18,10 @@
+ }
+ 
+ start() {
++	# We support running this script in a 'fail fast' ('set -e') mode.
++	set +e
+ 	status
++	set -e
+ 	if [ $PID -gt 0 ]
+ 	then
+ 		echo "OrientDB server daemon was already started. PID: $PID"
+@@ -21,7 +29,12 @@
+ 	fi
+ 	echo "Starting OrientDB server daemon..."
+ 	cd "$ORIENTDB_DIR/bin"
+-	su $ORIENTDB_USER -c "cd \"$ORIENTDB_DIR/bin\"; /usr/bin/nohup ./server.sh 1>../log/orientdb.log 2>../log/orientdb.err &"
++	# The 'orientdb.sh' script distributed with OrientDB assumes the
++	# script is being run as root and 'su's to the ORIENTDB_USER. In our
++	# case, we expect to be run as that user and skip the 'su' as it
++	# complicates setup and configuration to make it non-interactive. We
++	# also combine and append the logs.
++	nohup ./server.sh >> $LOG_DIR/orientdb.log 2>&1 &
+ }
+ 
+ stop() {
+@@ -33,7 +46,8 @@
+ 	fi
+ 	echo "Stopping OrientDB server daemon..."
+ 	cd "$ORIENTDB_DIR/bin"
+-	su $ORIENTDB_USER -c "cd \"$ORIENTDB_DIR/bin\"; /usr/bin/nohup ./shutdown.sh 1>>../log/orientdb.log 2>>../log/orientdb.err &"
++	# See note in 'start()'.
++	nohup ./shutdown.sh >> $LOG_DIR/orientdb.log 2>&1 &
+ }
+ 
+ status() {

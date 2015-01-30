@@ -9,6 +9,16 @@ mkdir -p $INSTALL_DIR
 cd $INSTALL_DIR
 tar -xzf $src --strip 1
 mkdir $out/bin
+for i in $bin_patches; do
+    # Honestly, I don't know why the last '.*' is necessary, but without it,
+    # BASE_NAME ends up like 'orientdb.patch'.
+    BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+).*|$1|'`
+    OUT_NAME="$out/bin/${BASE_NAME}"
+    patch -d "$out/bin" -o "$OUT_NAME" "$INSTALL_DIR/bin/${BASE_NAME}.sh" "$i"
+    chmod a+x "$out/bin/${BASE_NAME}"
+done
+exit 0
+
 cp "$conveyor_bin/"* $out/bin
 cp "$orientdb_bin/"* $INSTALL_DIR/bin
 mkdir "$PHP_CLIENT_DIR"
