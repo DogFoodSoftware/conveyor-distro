@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   };
 
   bin_patches = [ ./patches/orientdb.patch ];
-  obin_patches = [ ./patches/console.sh.patch ./patches/server.sh.patch ];
+  obin_patches = [ ./patches/console.sh.patch ./patches/server.sh.patch ./patches/shutdown.sh.patch ];
   orientdb_console_bin = ./bin/orientdb-console;
   conf = ./conf;
 
