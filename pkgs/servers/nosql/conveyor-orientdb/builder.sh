@@ -15,8 +15,9 @@ for i in $bin_patches; do
     BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+).*|$1|'`
     OUT_NAME="$out/bin/${BASE_NAME}"
     patch -d "$out/bin" -o "$OUT_NAME" "$INSTALL_DIR/bin/${BASE_NAME}.sh" "$i"
-    chmod a+x "$out/bin/${BASE_NAME}"
+    chmod a+x "$OUT_NAME"
 done
+cp $orientdb_console_bin $out/bin/orientdb-console
 exit 0
 
 cp "$conveyor_bin/"* $out/bin

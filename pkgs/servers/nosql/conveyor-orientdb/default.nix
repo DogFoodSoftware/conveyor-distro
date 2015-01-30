@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   };
 
   bin_patches = [ ./patches/orientdb.patch ];
-  conveyor_bin = ./bin;
+  orientdb_console_bin = ./bin/orientdb-console;
   orientdb_bin = ./bin-orientdb;
   conf = ./conf;
 
