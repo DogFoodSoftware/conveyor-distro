@@ -18,10 +18,12 @@ for i in $bin_patches; do
     chmod a+x "$OUT_NAME"
 done
 cp $orientdb_console_bin $out/bin/orientdb-console
+for i in $obin_patches; do
+    BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+\.sh).*|$1|'`
+    patch "$INSTALL_DIR/bin/${BASE_NAME}" "$i"
+done
 exit 0
 
-cp "$conveyor_bin/"* $out/bin
-cp "$orientdb_bin/"* $INSTALL_DIR/bin
 mkdir "$PHP_CLIENT_DIR"
 cp -a $client_src/* "$PHP_CLIENT_DIR"
 

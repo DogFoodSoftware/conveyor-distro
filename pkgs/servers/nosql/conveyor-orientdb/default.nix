@@ -22,8 +22,8 @@ stdenv.mkDerivation rec {
   };
 
   bin_patches = [ ./patches/orientdb.patch ];
+  obin_patches = [ ./patches/console.sh.patch ];
   orientdb_console_bin = ./bin/orientdb-console;
-  orientdb_bin = ./bin-orientdb;
   conf = ./conf;
 
   home = builtins.getEnv "HOME";
