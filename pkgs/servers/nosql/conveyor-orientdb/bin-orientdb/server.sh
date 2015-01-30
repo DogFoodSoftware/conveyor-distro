@@ -40,10 +40,6 @@ MAXHEAP="-Xmx${MAXHEAP}"
 
 cd "$ORIENTDB_HOME"
 
-# The 'real' config file is under the Conveyor data dir for
-# 'conveyor-orientdb'. However, we link the original config directory
-CONFIG_FILE=$ORIENTDB_HOME/config/orientdb-server-config.xml
-
 # Raspberry Pi check (Java VM does not run with -server argument on ARMv6)
 if [ `uname -m` != "armv6l" ]; then
   JAVA_OPTS="$JAVA_OPTS -server "
@@ -67,4 +63,4 @@ echo "Start with:"
 echo "$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2014-12-17 21:54:12+0000" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0-rc1.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain
 echo
 
-"$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2014-12-17 21:54:12+0000" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0-rc1.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain
+exec "$JAVA" $JAVA_OPTS $MAXHEAP $JAVA_OPTS_SCRIPT $ORIENTDB_SETTINGS $MAXDISKCACHE -Djava.util.logging.config.file="$LOG_FILE" -Dorientdb.config.file="$CONFIG_FILE" -Dorientdb.www.path="$WWW_PATH" -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2015-01-20 16:41:17+0000" -cp "$ORIENTDB_HOME/lib/orientdb-server-2.0.jar:$ORIENTDB_HOME/lib/*" $* com.orientechnologies.orient.server.OServerMain
