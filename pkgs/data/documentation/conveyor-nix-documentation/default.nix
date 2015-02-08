@@ -1,13 +1,13 @@
 { stdenv, fetchFromGitHub, conveyor-core }:
 
 stdenv.mkDerivation rec {
-  bare-name = "nix-documentation";
+  bare-name = "conveyor-nix-documentation";
   version = "0.1.4-PRE";
-  name = "conveyor-${bare-name}-${version}";
+  name = "${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
 
-  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/conveyor/${bare-name}";
+  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/${bare-name}";
   src = if builtins.pathExists test_path
     then test_path
     else fetchFromGitHub {
@@ -22,11 +22,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
+  bare_name = bare-name;
   installPhase = ''
-    INSTALL_DIR=$out/$name
+    INSTALL_DIR=$out/conveyor/$bare_name
 
     if [[ $test_path == $src ]]; then
-      mkdir -p $out
+      mkdir -p `dirname $INSTALL_DIR`
       ln -s $src $INSTALL_DIR
     else
       mkdir -p $INSTALL_DIR
