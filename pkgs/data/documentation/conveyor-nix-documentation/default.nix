@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
 
   bare_name = bare-name;
   installPhase = ''
-    INSTALL_DIR=$out/conveyor/$bare_name
+    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/$bare_name
 
     if [[ $test_path == $src ]]; then
       mkdir -p `dirname $INSTALL_DIR`
