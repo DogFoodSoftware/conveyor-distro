@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
   phases = [ "installPhase" ];
 
   installPhase = ''
-    INSTALL_DIR=$out/conveyor-twitter-bootstrap
+    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/conveyor-twitter-bootstrap
 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR

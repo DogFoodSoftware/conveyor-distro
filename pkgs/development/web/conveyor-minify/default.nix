@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     # Always create package context to avoid name collisions.
-    INSTALL_DIR=$out/conveyor-minify
+    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/conveyor-minify
 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
 
-    mkdir -p /home/user/.conveyor/data/dogfoodsoftware/conveyor-minify/cache;
+    mkdir -p /home/user/.conveyor/data/dogfoodsoftware.com/conveyor-minify/cache;
   ''; 
 
   meta = {

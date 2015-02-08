@@ -78,9 +78,9 @@ ORIENTDB_HOME="$INSTALL_DIR"
 SERVER_CONF="$DATA_DIR/conf/orientdb-server-config.xml"
 # TODO: I thought in-place replacement of file possible, but seemed to
 # produce an error.
-mv "$SERVER_CONF" "$SERVER_CONF".tmp
-sed -e "s|\${ORIENTDB_HOME}|${ORIENTDB_HOME}|" "${SERVER_CONF}.tmp" > "$SERVER_CONF"
-rm "$SERVER_CONF".tmp
+# mv "$SERVER_CONF" "$SERVER_CONF".tmp
+# sed -e "s|\${ORIENTDB_HOME}|${ORIENTDB_HOME}|" "${SERVER_CONF}.tmp" > "$SERVER_CONF"
+# rm "$SERVER_CONF".tmp
 
 chmod u-w $out
 
