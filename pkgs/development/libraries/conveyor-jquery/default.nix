@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/$bare_name
 
     mkdir -p $INSTALL_DIR
-    cp -a $src $INSTALL_DIR
+    cp -a $src $INSTALL_DIR/jquery-${version}.js
   ''; 
 
   meta = with stdenv.lib; {
