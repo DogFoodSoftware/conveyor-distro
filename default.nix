@@ -38,6 +38,14 @@ rec {
     inherit (pkgs) stdenv fetchurl;
   };
 
+  conveyor-jquery-sticky = import ./pkgs/development/libraries/conveyor-jquery-sticky {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
+  conveyor-icanhaz = import ./pkgs/development/libraries/conveyor-icanhaz {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
   };
