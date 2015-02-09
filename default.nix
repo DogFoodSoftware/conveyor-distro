@@ -34,6 +34,10 @@ rec {
     inherit (pkgs) stdenv nodejs;
   };
 
+  conveyor-jquery = import ./pkgs/development/libraries/conveyor-jquery {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
   };
