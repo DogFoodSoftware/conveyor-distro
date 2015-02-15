@@ -1,5 +1,7 @@
 #!/bin/bash
 
-APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache
+DFS_RUNTIME="$HOME/.conveyor/runtime/dogfoodsoftware.com/"
+PROJECT_NAME="conveyor-apache"
+PROJECT_RUNTIME="$DFS_RUNTIME/$PROJECT_NAME"
 
-$APACHE_DIR/bin/apachectl -k restart
+$PROJECT_HOME/runnable/bin/apachectl -k restart

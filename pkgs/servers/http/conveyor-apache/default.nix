@@ -5,19 +5,21 @@ stdenv.mkDerivation rec {
 
   domain_name = "dogfoodsoftware.com";
   bare_name = "conveyor-apache";
-  version = "2.2.26";
+  version = "2.2.29";
   name = "${bare_name}-${version}";
 
   builder = ./builder.sh;
   
   src = fetchurl {
-    url = http://archive.apache.org/dist/httpd/httpd-2.2.26.tar.bz2;
-    md5 = "254eda547f8d624604e4bf403241e617";
+    url = "http://archive.apache.org/dist/httpd/httpd-${version}.tar.bz2";
+    md5 = "579342fdeaa7b8b68d17fee91f8fab6e";
+    # md5 = "254eda547f8d624604e4bf403241e617";
   };
 
   httpdConf = ./conf/httpd.conf;
   httpdMime = ./conf/mime.types;
   httpdMagic = ./conf/magic;
+  httpdInit = conf/apache-httpd.init;
   bin = ./bin;
   home = builtins.getEnv "HOME";
   
