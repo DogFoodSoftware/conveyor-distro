@@ -39,7 +39,7 @@ fi
 
 # ODB_CREDENTIALS="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/odb-credentials"
 # if [[ ! -d $CC_DATABASES/conveyor ]]; then
-if [[ 0 -eq 1 ]]; then
+if [[ `false` ]]; then
     if [[ ! $(type -P orientdb-console) ]]; then
 	"ERROR: Did not find Conveyor (Orient)DB, nor 'orientdb-console'."
 	exit 2 # 500
@@ -131,4 +131,6 @@ for i in `ls $INSTALL_DIR/documentation/help`; do
 done
 
 mkdir $out/bin
-ln -s $out/conveyor-core/bin/con $out/bin/con
+ln -s $INSTALL_DIR/bin/con $out/bin/con
+
+ln -s $INSTALL_DIR/conf/service-documentation.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/

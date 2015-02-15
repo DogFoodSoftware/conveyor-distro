@@ -9,16 +9,25 @@ mkdir -p $INSTALL_DIR
 cd $INSTALL_DIR
 tar -xzf $src --strip 1
 mkdir $out/bin
-cp "$conveyor_bin/"* $out/bin
-cp "$orientdb_bin/"* $INSTALL_DIR/bin
-mkdir "$PHP_CLIENT_DIR"
-cp -a $client_src/* "$PHP_CLIENT_DIR"
+for i in $bin_patches; do
+    # Honestly, I don't know why the last '.*' is necessary, but without it,
+    # BASE_NAME ends up like 'orientdb.patch'.
+    BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+).*|$1|'`
+    OUT_NAME="$out/bin/${BASE_NAME}"
+    patch -d "$out/bin" -o "$OUT_NAME" "$INSTALL_DIR/bin/${BASE_NAME}.sh" "$i"
+    chmod a+x "$OUT_NAME"
+done
+cp $orientdb_console_bin $out/bin/orientdb-console
+for i in $obin_patches; do
+    BASE_NAME=`echo $i | perl -pe 's|/nix/store/\w+-([^.]+\.sh).*|$1|'`
+    patch "$INSTALL_DIR/bin/${BASE_NAME}" "$i"
+done
 
 # Setup data directory.
 mkdir -p "$DATA_DIR"
 
 # TODO: move this to conveyor-core install lib.
-function move_dir() {
+function make_data_dir() {
     SRC="$INSTALL_DIR/$1"
     TARGET="$DATA_DIR/$2"
 
@@ -44,9 +53,9 @@ function move_dir() {
     ln -s "$TARGET" "$SRC"
 }
 
-move_dir log log
-move_dir config conf
-move_dir databases databases
+make_data_dir log log
+make_data_dir config conf
+make_data_dir databases databases
 # TODO: We're doing this because OrientDB really wants to put the
 # console history in the bin directory and reasonable googling has
 # failed to turn up configuration to say otherwise. May need to submit
@@ -55,7 +64,7 @@ move_dir databases databases
 # script... and besides that would break out 'runtime inviolate'
 # rule. So, until we find a way to configure that out, we have to move
 # the 'bin'.
-move_dir bin bin
+make_data_dir bin bin
 chmod u+w "$DATA_DIR/bin"
 chmod u+w "$DATA_DIR/conf/"*
 cp "$conf/"* "$DATA_DIR/conf"
@@ -69,15 +78,17 @@ ORIENTDB_HOME="$INSTALL_DIR"
 SERVER_CONF="$DATA_DIR/conf/orientdb-server-config.xml"
 # TODO: I thought in-place replacement of file possible, but seemed to
 # produce an error.
-mv "$SERVER_CONF" "$SERVER_CONF".tmp
-sed -e "s|\${ORIENTDB_HOME}|${ORIENTDB_HOME}|" "${SERVER_CONF}.tmp" > "$SERVER_CONF"
-rm "$SERVER_CONF".tmp
+# mv "$SERVER_CONF" "$SERVER_CONF".tmp
+# sed -e "s|\${ORIENTDB_HOME}|${ORIENTDB_HOME}|" "${SERVER_CONF}.tmp" > "$SERVER_CONF"
+# rm "$SERVER_CONF".tmp
 
 chmod u-w $out
 
 # Install PHP client dependencies
 COMPOSER="${conveyor_composer}/conveyor-composer/composer.phar"
 COMPOSER_DATA="$home/.conveyor/data/dogfoodsoftware.com/conveyor-composer/"
+mkdir "$PHP_CLIENT_DIR"
+cp -a $client_src/* "$PHP_CLIENT_DIR"
 cd "$PHP_CLIENT_DIR"
 export COMPOSER_HOME="$COMPOSER_DATA/home"
 export COMPOSER_VENDOR_DIR="$COMPOSER_DATA/vendor"

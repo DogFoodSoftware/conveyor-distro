@@ -25,9 +25,7 @@
 # 6 - program is not configured
 # 7 - program is not running
 
-MANAGE_BASE=/home/user/playground/dogfoodsoftware.com/third-party/apache-httpd/bin/apache-httpd-
-IPTABLES=/usr/sbin/iptables
-ACCEPT_PORTS="80 443 42069 42070"
+MANAGE_BASE=/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache/bin/apache-httpd-
 
 function check() {
     local SUFFIX="$1"; shift
@@ -49,11 +47,6 @@ case "$1" in
     stop)
 	check stop
         sudo -u user ${MANAGE_BASE}stop
-	for i in $ACCEPT_PORTS; do
-	    $IPTABLES -D INPUT -p tcp --dport $i -j ACCEPT
-        done
-        $IPTABLES -t nat -D PREROUTING -p tcp --dport 80 -j DNAT --to-destination :42069
-        $IPTABLES -t nat -D PREROUTING -p tcp --dport 443 -j DNAT --to-destination :42070
 	;;
     restart)
 	check restart

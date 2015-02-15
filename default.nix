@@ -17,7 +17,7 @@ rec {
   };
 
   conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
-    inherit (pkgs) stdenv fetchurl fetchFromGitHub;
+    inherit (pkgs) stdenv patch perl fetchurl fetchFromGitHub;
     inherit conveyor-composer conveyor-php;
   };
 
@@ -32,6 +32,18 @@ rec {
 
   conveyor-less = import ./pkgs/development/interpreters/conveyor-less {
     inherit (pkgs) stdenv nodejs;
+  };
+
+  conveyor-jquery = import ./pkgs/development/libraries/conveyor-jquery {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
+  conveyor-jquery-sticky = import ./pkgs/development/libraries/conveyor-jquery-sticky {
+    inherit (pkgs) stdenv fetchurl;
+  };
+
+  conveyor-icanhaz = import ./pkgs/development/libraries/conveyor-icanhaz {
+    inherit (pkgs) stdenv fetchurl;
   };
 
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {

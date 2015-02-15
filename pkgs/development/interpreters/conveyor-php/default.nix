@@ -12,14 +12,14 @@ stdenv.mkDerivation rec {
 
   domain_name = "dogfoodsoftware.com";
   bare_name = "conveyor-php";
-  version = "5.6.4";
+  version = "5.6.5";
   name = "${bare_name}-${version}";
 
   builder = ./builder.sh;
   
   src = fetchurl {
     url = "http://us1.php.net/get/php-${version}.tar.bz2/from/this/mirror";
-    md5 = "d31629e9c2fb5f438ab2dc0aa597cd82";
+    md5 = "64d0debf42bfff537d891e1fe1a4b65c";
   };
 
   is_devel = if builtins.pathExists test_path

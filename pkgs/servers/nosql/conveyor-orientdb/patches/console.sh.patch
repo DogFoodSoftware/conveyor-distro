@@ -1,0 +1,28 @@
+--- orientdb-community-2.0/bin/console.sh	2015-01-20 16:41:19.000000000 +0000
++++ bin-orientdb/console.sh	2015-01-30 22:15:05.535253309 +0000
+@@ -3,6 +3,9 @@
+ # Copyright (c) Orient Technologies LTD (http://www.orientechnologies.com)
+ #
+ 
++#set current working directory
++cd `dirname $0`
++
+ # resolve links - $0 may be a softlink
+ PRG="$0"
+ 
+@@ -22,7 +25,6 @@
+ # Only set ORIENTDB_HOME if not already set
+ [ -f "$ORIENTDB_HOME"/lib/orientdb-tools-2.0.jar ] || ORIENTDB_HOME=`cd "$PRGDIR/.." ; pwd`
+ export ORIENTDB_HOME
+-cd "$ORIENTDB_HOME/bin"
+ 
+ # Set JavaHome if it exists
+ if [ -f "${JAVA_HOME}/bin/java" ]; then 
+@@ -38,6 +40,6 @@
+ KEYSTORE_PASS=password
+ TRUSTSTORE=$ORIENTDB_HOME/config/cert/orientdb-console.ts
+ TRUSTSTORE_PASS=password
+-SSL_OPTS="-Xmx512m -Dclient.ssl.enabled=false -Djavax.net.ssl.keyStore=$KEYSTORE -Djavax.net.ssl.keyStorePassword=$KEYSTORE_PASS -Djavax.net.ssl.trustStore=$TRUSTSTORE -Djavax.net.ssl.trustStorePassword=$TRUSTSTORE_PASS"
++SSL_OPTS="-Xmx128m -Dclient.ssl.enabled=false -Djavax.net.ssl.keyStore=$KEYSTORE -Djavax.net.ssl.keyStorePassword=$KEYSTORE_PASS -Djavax.net.ssl.trustStore=$TRUSTSTORE -Djavax.net.ssl.trustStorePassword=$TRUSTSTORE_PASS"
+ 
+ "$JAVA" -client $JAVA_OPTS $ORIENTDB_SETTINGS $SSL_OPTS -Dfile.encoding=utf-8 -Dorientdb.build.number="UNKNOWN@r${buildNumber}; 2015-01-20 16:41:17+0000" -cp "$ORIENTDB_HOME/lib/orientdb-tools-2.0.jar:$ORIENTDB_HOME/lib/*" com.orientechnologies.orient.graph.console.OGremlinConsole $*

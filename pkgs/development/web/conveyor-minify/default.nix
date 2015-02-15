@@ -12,12 +12,13 @@ stdenv.mkDerivation rec {
 
   minify_conf = ./conf/minify.httpd.conf;
   minify_src = ./src;
+  home = builtins.getEnv "HOME";
 
   phases = [ "installPhase" ];
 
   installPhase = ''
     # Always create package context to avoid name collisions.
-    INSTALL_DIR=$out/conveyor-minify
+    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/conveyor-minify
 
     mkdir -p $INSTALL_DIR
     cp -a $src/* $INSTALL_DIR
@@ -32,7 +33,10 @@ stdenv.mkDerivation rec {
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
 
-    mkdir -p /home/user/.conveyor/data/dogfoodsoftware/conveyor-minify/cache;
+    rm -f $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
+    ln -s $INSTALL_DIR/conf/minify.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
+
+    mkdir -p $home/.conveyor/data/dogfoodsoftware.com/conveyor-minify/cache;
   ''; 
 
   meta = {

@@ -1,70 +1,36 @@
 #!/bin/bash
 
-source $HOME/.conveyor/config
-# source $DFS_HOME/third-party/shflags/shflags
-# source $CONVEYOR_HOME/core/runnable/lib/shell-echo.sh
-source $CONVEYOR_HOME/core/runnable/lib/service-status.sh
+DFS_RUNTIME="$HOME/.conveyor/runtime/dogfoodsoftware.com/"
+CONVEYOR_CORE_RUNTIME="$DFS_RUNTIME/conveyor-core"
+source $CONVEYOR_CORE_RUNTIME/runnable/lib/shell-echo.sh
+source $CONVEYOR_CORE_RUNTIME/runnable/lib/service-status.sh
 
-APACHE_DIR=$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-apache
+PROJECT_NAME="conveyor-apache"
+PROJECT_RUNTIME="$DFS_RUNTIME/$PROJECT_NAME"
 
-# Note the standard convention is to run immediate by default and set up
-# automated starts on request.
-# DEFINE_boolean 'automate' false 'Attempts to configure host to start service on boot.' 'a'
-# DEFINE_boolean 'immediate' true 'Attempts to start the service immediately.' 'i'
+# TODO: make status to check to ensure installed and not running.
+# TODO: move this to status check?
 
-# FLAGS "$@" || exit $?
-# eval set -- "${FLAGS_ARGV}"
-
-# if [ $FLAGS_immediate -eq $FLAGS_TRUE ]; then
-if [ 1 -eq 1 ]; then
-    # TODO: make status to check to ensure installed and not running.
-    # TODO: move this to status check?
-    # check to see if our target ports are free
-    LISTEN_PORTS="8080 8443"
-    for PORT in $LISTEN_PORTS; do
-	if [ x"" != x"`sudo netstat -tlnp | grep tcp | grep $PORT`" ]; then
-	    # qecho "Apache target port '$PORT' already bound." >&2
-	    echo "Apache target port '$PORT' already bound." >&2
-	    exit 1
-	fi
-    done
-    $APACHE_DIR/bin/apachectl -k start
-    #we want to give the thing a moment to fail...
-    i=0
-    # TODO: As with above, we should just use 'apach-httpd-status' here and let it handle the logic to determine status.
-    while [ x"$PS_PID" == x ] && [ $i -lt 10 ]; do
-	sleep 1
-	i=$((i+1))
-	PS_PID=`ps U user | grep httpd | awk '{print $1}'`
-    done
-    if [ x"$PS_PID" == x ]; then
-	# qecho "Apache seems to have failed to start." 1>&2
-	echo "Apache seems to have failed to start." 1>&2
-	exit $SERVICE_STATUS_INSTALLED_AND_NOT_RUNNING
+# check to see if our target ports are free
+LISTEN_PORTS="8080 8443"
+for PORT in $LISTEN_PORTS; do
+    if [ x"" != x"`sudo netstat -tlnp | grep tcp | grep $PORT`" ]; then
+	echo "Apache target port '$PORT' already bound." >&2
+	exit 1
     fi
-fi # FLAGS_immediate check
-
-# if [ $FLAGS_automate -eq $FLAGS_TRUE ]; then
-if [ 0 -eq 1 ]; then
-    # The scripts primarily target a VM environment where the operating user
-    # has root access. So we test to see if we have root access, and if so,
-    # attempt to configure the host init to automatacilly start the
-    # apache-httpd process.
-    if [[ x`sudo echo foo` == xfoo ]]; then
-	# This is the process control style for openSuSE 13.1. If we ever want
-	# to support multiple distros, we'd need to do a type check here. At
-	# the moment, the plan is for 1.0 to support openSuSE + Ubuntu and
-	# maybe CentOS.
-	sudo cp $APACHE_DIR/conf/apache-httpd.init /etc/init.d
-	sudo chown root /etc/init.d/apache-httpd.init
-	sudo chmod 744 /etc/init.d/apache-httpd.init
-	sudo systemctl enable apache-httpd.init.service
-    else
-	# qecho "Cannot access root account; you will need to manually enable automatic start of"
-	echo "Cannot access root account; you will need to manually enable automatic start of"
-	# qecho "apache-httpd. Examine this script for how this might be done."
-	echo "apache-httpd. Examine this script for how this might be done."
-    fi # sudo access check
-fi # FLAGS_automate check
+done
+$PROJECT_RUNTIME/runnable/bin/apachectl -k start
+#we want to give the thing a moment to fail...
+i=0
+# TODO: As with above, we should just use 'apach-httpd-status' here and let it handle the logic to determine status.
+while [ x"$PS_PID" == x ] && [ $i -lt 10 ]; do
+    sleep 1
+    i=$((i+1))
+    PS_PID=`ps U user | grep httpd | awk '{print $1}'`
+done
+if [ x"$PS_PID" == x ]; then
+    echo "Apache seems to have failed to start." 1>&2
+    exit $SERVICE_STATUS_INSTALLED_AND_NOT_RUNNING
+fi
 
 exit $SERVICE_STATUS_RUNNING

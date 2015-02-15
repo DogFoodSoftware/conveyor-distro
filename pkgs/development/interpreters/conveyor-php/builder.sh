@@ -8,7 +8,7 @@ INSTALL_DIR="$out/conveyor/${domain_name}/${bare_name}"
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-php
 mkdir -p $DATA_DIR
 mkdir -p $DATA_DIR/conf
-APACHE_PATH="${apache_home}/conveyor/dogfoodsoftware.com/conveyor-apache"
+APACHE_PATH="${apache_home}/conveyor/dogfoodsoftware.com/conveyor-apache/runnable"
 
 cd php-*
 #conditionally include the postgres headers

@@ -1,6 +1,11 @@
 source $stdenv/setup 1
 
-INSTALL_DIR="$out/conveyor/${domain_name}/${bare_name}"
+DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
+CONVEYOR_CORE_RUNTIME="$DFS_RUNTIME/conveyor-core"
+source $CONVEYOR_CORE_RUNTIME/runnable/lib/shell-echo.sh
+
+PROJECT_HOME="$out/conveyor/${domain_name}/${bare_name}"
+APACHE_INSTALL_DIR="$PROJECT_HOME/runnable"
 
 PATH=$perl/bin:$PATH
 
@@ -8,7 +13,7 @@ tar xjf $src
 
 cd httpd-*
 echo "Configuring..."
-configureFlags="--prefix=$INSTALL_DIR $configureFlags"
+configureFlags="--prefix=$APACHE_INSTALL_DIR $configureFlags"
 ./configure $configureFlags
 echo "Compiling..."
 make
@@ -16,16 +21,15 @@ echo "Installing..."
 make install
 
 # Set up the static Conveyor-Stack configuration for Apache.
-cd $INSTALL_DIR
+cd $APACHE_INSTALL_DIR
 
 # Our own httpd.conf is fundamental to the whole idea.
 mv conf/httpd.conf conf/httpd.conf.built
 cp $httpdConf ./conf/httpd.conf
 # Also copy over our conveyor control scripts.
-mkdir $out/bin
-cp $bin/* $out/bin 
-# Not sure whether it's necessary to copy bin to '$out' rather than
-# $INSTALL_DIR, but I think so.
+mkdir $PROJECT_HOME/bin
+cp $bin/* $PROJECT_HOME/bin
+ln -s $PROJECT_HOME/bin $out/bin
 
 # These two files fix issues we had at one time. At
 # this point, I don't remember exactly what they are.
@@ -56,3 +60,22 @@ mkdir -p $DATA_DIR/htdocs
 mkdir -p $DATA_DIR/logs
 rmdir ./logs
 ln -s $DATA_DIR/logs logs
+
+# Next, we automate starting the server on boot. Currently, we support
+# openSuSE 13.1. As we add other base systems, this logic will probably move
+# to some kind of case statement in a library.
+
+# Check that we can operate as root.
+if [[ ! x`/usr/bin/sudo echo foo` == xfoo ]]; then
+    qerr "Cannot setup start-on-boot. No access to root."
+    exit 87 # TODO: do something with this exit
+fi
+
+# TODO: Update this to systemd
+# The 'Z_' prefix is so that we get run after the 
+/usr/bin/sudo cp $httpdInit /etc/init.d/Z_apache-httpd.init
+/usr/bin/sudo chown root /etc/init.d/Z_apache-httpd.init
+/usr/bin/sudo chmod 744 /etc/init.d/Z_apache-httpd.init
+/usr/bin/sudo /usr/bin/systemctl enable Z_apache-httpd.init.service
+/usr/bin/sudo /sbin/SuSEfirewall2 open EXT TCP 8080
+/usr/bin/sudo /sbin/SuSEfirewall2 open EXT TCP 8443
