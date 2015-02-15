@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Defaults
 FORCE=false
 ATTEMPT_NIX_INSTALL=false
@@ -67,6 +69,7 @@ if [[ ! $(type -P nix-env) ]]; then
 	|| [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
 	# TODO: Implement MD5 check, target specific version. 
 	bash <(curl https://nixos.org/nix/install)
+	source $HOME/.nix-profile/etc/profile.d/nix.sh
     fi
 fi
 # If nix still not installed at this point, then we're out of luck.
