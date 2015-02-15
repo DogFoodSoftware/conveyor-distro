@@ -1,4 +1,4 @@
-{ stdenv, procps, gnugrep, gawk, fetchFromGitHub, jre, conveyor-orientdb }:
+{ stdenv, procps, gnugrep, gawk, fetchFromGitHub, jre }:
 
 stdenv.mkDerivation rec {
   domain-name = "dogfoodsoftware.com";
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
   builder = ./builder.sh;
 
   # The 'orientdb' script needs 'ps', 'grep', 'awk', and 'java'.
-  buildInputs = [ conveyor-orientdb procps gnugrep gawk jre ];
+  # buildInputs = [ conveyor-orientdb procps gnugrep gawk jre ];
 
   # meta = {
   #   description = "Something...";

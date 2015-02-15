@@ -37,8 +37,9 @@ if [ ! -f "$home/.conveyor/host-id" ]; then
     /usr/bin/uuidgen > "$home/.conveyor/host-id"
 fi
 
-ODB_CREDENTIALS="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/odb-credentials"
-if [[ ! -d $CC_DATABASES/conveyor ]]; then
+# ODB_CREDENTIALS="$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/odb-credentials"
+# if [[ ! -d $CC_DATABASES/conveyor ]]; then
+if [[ 0 -eq 1 ]]; then
     if [[ ! $(type -P orientdb-console) ]]; then
 	"ERROR: Did not find Conveyor (Orient)DB, nor 'orientdb-console'."
 	exit 2 # 500
