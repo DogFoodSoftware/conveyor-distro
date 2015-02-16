@@ -134,4 +134,4 @@ done
 mkdir $out/bin
 ln -s $INSTALL_DIR/bin/con $out/bin/con
 
-ln -s $INSTALL_DIR/conf/service-documentation.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
+# ln -s $INSTALL_DIR/conf/service-documentation.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
