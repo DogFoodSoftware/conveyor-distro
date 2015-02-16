@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
       repo = "${bare-name}";
-      rev =  "ae1e81d16bd58c15ad635ee1406008748ef6003c";
+      rev =  "ba51000369c694e8d49cf050b591d20a690d17e0";
       sha256 = "1r6f4ys348hvswgzvkxb1hc4ahp6rg9swq3rsbfcdndmm90mprpl";
     };
 
