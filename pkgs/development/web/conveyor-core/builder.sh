@@ -113,7 +113,8 @@ EOF
     # 'orientdb-console' will exit with non-0 even if everything fine. (2.0-RC1)
     orientdb-console "$SCHEMA_ODB" # || true
 
-elif [[ ! -f "$ODB_CREDENTIALS" ]]; then
+# elif [[ ! -f "$ODB_CREDENTIALS" ]]; then
+elif [[ `false` ]]; then
     echo "ERROR: Found Conveyor (Orient)DB, but did not find '$ODB_CREDENTIALS'; no automated fix available." >&2
     exit 2 
 fi
