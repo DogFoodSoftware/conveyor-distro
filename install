@@ -92,8 +92,8 @@ done
 
 # Use local playground distro if present.
 if [ -d "$HOME/playground/dogfoodsoftware.com/distro" ]; then
-    if [ -h "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]; then
-	if [[ `readlink "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"` == "$HOME/playground/dogfoodsoftware.com/distro" ]]; then
+    if [ -h "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro" ]; then
+	if [[ `readlink "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro"` == "$HOME/playground/dogfoodsoftware.com/distro" ]]; then
 	    echo "Local DogFoodSoftware.com distro checkout already linked as subscription. Continuing..."
 	else
 	    echo "Local DogFoodSoftware.com distro found, but subscription links to:" >&2
@@ -101,18 +101,20 @@ if [ -d "$HOME/playground/dogfoodsoftware.com/distro" ]; then
 	    echo "bailing out. >&2"
 	    exit 2
 	fi
-    elif [ -d "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]; then	
-	echo "Found local dogfoodsoftware.com distro checkout, but also" >&2
-	echo "'$HOME/.conveyor/subscriptions/dogfoodsoftware.com' to use checkout, execute:" >&2
+    elif [ -d "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro" ]; then	
+	echo "Found local dogfoodsoftware.com/distro checkout, but also" >&2
+	echo "'$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro' to use checkout, execute:" >&2
 	echo >&2
-	echo "  rm -rf '$HOME/.conveyor/subscriptions/dogfoodsoftware.com'"
+	echo "  rm -rf '$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro'"
 	echo >&2
 	echo "and re-run the install script."
 	exit 2
     else # Then we have a local checkout, but no distro link; create it.
-	ln -s "$HOME/playground/dogfoodsoftware.com/distro" "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"
+	mkdir -p "$HOME/playground/dogfoodsoftware.com"
+	ln -s "$HOME/playground/dogfoodsoftware.com/distro" "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro"
     fi
 else # No local checkout found, checkout from github.
     cd "$HOME/.conveyor/subscriptions"
+    mkdir -p dogfoodsoftware.com
     git clone --depth 1 https://github.com/DogFoodSoftware/distro dogfoodsoftware.com
 fi

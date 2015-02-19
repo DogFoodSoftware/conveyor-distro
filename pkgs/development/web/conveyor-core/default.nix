@@ -3,7 +3,7 @@
 stdenv.mkDerivation rec {
   domain-name = "dogfoodsoftware.com";
   bare-name = "conveyor-core";
-  version = "0.1.3-PRE";
+  version = "0.1.8-PRE";
   name = "${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";
@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
       repo = "${bare-name}";
-      rev =  "ba51000369c694e8d49cf050b591d20a690d17e0";
-      sha256 = "0al01kzq6i564br05dzswxcrwj4phdzjrjrqsd8mp7a9a1ggj8hg";
+      rev =  "b7897a6948553d25415a3f544a9096e36e97c321";
+      sha256 = "0yvp5sxmsg6jf76i1y2lbc9n8741hp2ccwvcy8cq3065mlknw1y4";
     };
 
   domain_name = domain-name;
