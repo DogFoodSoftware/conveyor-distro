@@ -97,7 +97,7 @@ if [ -d "$HOME/playground/dogfoodsoftware.com/distro" ]; then
 	    echo "Local DogFoodSoftware.com distro checkout already linked as subscription. Continuing..."
 	else
 	    echo "Local DogFoodSoftware.com distro found, but subscription links to:" >&2
-	    echo "  `readlink '$HOME/.conveyor/subscriptions/dogfoodsoftware.com'`" >&2
+	    echo "  `readlink '$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro'`" >&2
 	    echo "bailing out. >&2"
 	    exit 2
 	fi
