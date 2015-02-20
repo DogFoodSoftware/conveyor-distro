@@ -3,7 +3,7 @@
 stdenv.mkDerivation rec {
   domain-name = "dogfoodsoftware.com";
   bare-name = "conveyor-core";
-  version = "0.1.8-PRE";
+  version = "0.1.9-PRE";
   name = "${bare-name}-${version}";
 
   home = builtins.getEnv "HOME";

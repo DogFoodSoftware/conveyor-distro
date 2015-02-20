@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
     mkdir -p $INSTALL_DIR/conf
     cp $minify_conf $INSTALL_DIR/conf/minify.httpd.conf
 
-    rm -f $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
+    rm -f $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/minify.httpd.conf
     ln -s $INSTALL_DIR/conf/minify.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
 
     mkdir -p $home/.conveyor/data/dogfoodsoftware.com/conveyor-minify/cache;
