@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, conveyor-core }:
+{ stdenv, fetchFromGitHub, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   domain = "dogfoodsoftware.com";

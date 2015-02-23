@@ -20,6 +20,7 @@ rec {
 
   conveyor-mysql = import ./pkgs/servers/sql/conveyor-mysql {
     inherit (pkgs) stdenv patchelf fetchurl pkgconfig gcc openssl zlib perl cmake bison ncurses;
+    inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-composer = import ./pkgs/development/misc/conveyor-composer {
@@ -48,11 +49,12 @@ rec {
 
   conveyor-jquery = import ./pkgs/development/libraries/conveyor-jquery {
     inherit (pkgs) stdenv fetchurl;
-    inherit conveyor-install-lib;
+    inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-jquery-sticky = import ./pkgs/development/libraries/conveyor-jquery-sticky {
     inherit (pkgs) stdenv fetchurl;
+    inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-icanhaz = import ./pkgs/development/libraries/conveyor-icanhaz {
@@ -72,12 +74,12 @@ rec {
 
   conveyor-standards = import ./pkgs/data/documentation/conveyor-standards {
     inherit (pkgs) stdenv fetchFromGitHub;
-    inherit conveyor-install-lib conveyor-core;
+    inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-nix-documentation = import ./pkgs/data/documentation/conveyor-nix-documentation {
     inherit (pkgs) stdenv fetchFromGitHub;
-    inherit conveyor-core;
+    inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-stack-documentation = import ./pkgs/data/documentation/conveyor-stack-documentation {

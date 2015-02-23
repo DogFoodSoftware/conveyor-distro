@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, conveyor-install-lib }:
+{ stdenv, fetchurl, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   version = "2.1.1";
