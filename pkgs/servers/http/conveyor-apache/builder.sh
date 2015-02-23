@@ -1,7 +1,7 @@
 source $stdenv/setup 1
 source $install_lib
 
-DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
+DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com"
 CONVEYOR_CORE_RUNTIME="$DFS_RUNTIME/conveyor-core"
 source $CONVEYOR_CORE_RUNTIME/runnable/lib/shell-echo.sh
 
