@@ -1,8 +1,10 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
-  version = "1.0.0-alpha9";
-  name = "conveyor-composer-${version}";
+  domain = "dogfoodsoftware.com";
+  bare_name = "conveyor-composer";
+  version = "1.0.0-pre9";
+  name = "${bare_name}-${version}";
 
   src = fetchurl {
     url = "https://getcomposer.org/download/1.0.0-alpha9/composer.phar";
@@ -14,11 +16,16 @@ stdenv.mkDerivation rec {
 
   home = builtins.getEnv "HOME";
 
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh
+
   installPhase = ''
-    INSTALL_DIR=$out/conveyor-composer
+    source $install_lib
 
     mkdir -p $INSTALL_DIR
-    cp -a $src $INSTALL_DIR/composer.phar  ''; 
+    cp -a $src $INSTALL_DIR/composer.phar
+
+    make_runtime_link
+  ''; 
 
   meta = {
     description = "Conveyor packaged Composer dependency management for PHP.";

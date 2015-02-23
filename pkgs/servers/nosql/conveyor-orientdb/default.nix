@@ -1,4 +1,5 @@
-{ stdenv, patch, perl, fetchurl, fetchFromGitHub, conveyor-composer, conveyor-php }:
+{ stdenv, patch, perl, fetchurl, fetchFromGitHub, conveyor-core,
+conveyor-composer, conveyor-php, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   domain_name = "dogfoodsoftware.com";
@@ -30,6 +31,7 @@ stdenv.mkDerivation rec {
 
   home = builtins.getEnv "HOME";
   conveyor_composer = conveyor-composer;
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
   
   buildInputs = [ patch perl conveyor-composer conveyor-php ];
 

@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, perl, pkgconfig, gcc, openssl, zlib, cmake, bison, ncurses, patchelf }:
+{ stdenv, fetchurl, perl, pkgconfig, gcc, openssl, zlib, cmake, bison, ncurses, patchelf, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   inherit perl;
@@ -16,6 +16,7 @@ stdenv.mkDerivation rec {
   };
 
   home = builtins.getEnv "HOME";
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
   
   buildInputs = [ gcc openssl zlib cmake bison ncurses patchelf ];
 

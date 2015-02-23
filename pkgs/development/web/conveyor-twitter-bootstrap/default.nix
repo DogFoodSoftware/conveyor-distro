@@ -1,8 +1,10 @@
-{ stdenv, fetchFromGitHub }: #, lessc, closurecompiler }:
+{ stdenv, fetchFromGitHub, conveyor-core, conveyor-install-lib }: #, lessc, closurecompiler }:
 
 stdenv.mkDerivation rec {
+  domain = "dogfoodsoftware.com";
+  bare_name = "conveyor-twitter-bootstrap";
   version = "3.3.1";
-  name = "conveyor-twitter-bootstrap-${version}";
+  name = "${bare_name}-${version}";
 
   src = fetchFromGitHub {
     owner = "twitter";
@@ -15,15 +17,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
+
   installPhase = ''
-    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/conveyor-twitter-bootstrap
+    source $install_lib
 
-    mkdir -p $INSTALL_DIR
-    cp -a $src/* $INSTALL_DIR
-
-    # mkdir -p $out/css $out/js
-    # closure-compiler --js $src/js/*.js > $out/js/bootstrap.js
-    # lessc $src/less/bootstrap.less -O2 -x > $out/css/bootstrap.css
+    conveyor_standard_lib
   ''; 
 
   meta = {

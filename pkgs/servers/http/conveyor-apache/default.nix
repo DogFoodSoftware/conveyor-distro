@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, perl, pkgconfig, gcc, openssl, zlib }:
+{ stdenv, fetchurl, perl, pkgconfig, gcc, openssl, zlib, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   inherit perl;
@@ -22,6 +22,7 @@ stdenv.mkDerivation rec {
   httpdInit = conf/apache-httpd.init;
   bin = ./bin;
   home = builtins.getEnv "HOME";
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
   
   buildInputs = [ gcc openssl zlib ];
 

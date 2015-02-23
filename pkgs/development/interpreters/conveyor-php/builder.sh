@@ -1,4 +1,5 @@
 source $stdenv/setup 1
+source $install_lib
 
 PATH=$perl/bin:$PATH
 
@@ -73,3 +74,5 @@ cp $php_cli_ini ${home}/.conveyor/data/dogfoodsoftware.com/conveyor-php/conf/php
 
 mkdir -p $DATA_DIR/data/logs
 ln -s $INSTALL_DIR/bin $out/bin
+
+make_runtime_link

@@ -1,60 +1,32 @@
-{ stdenv, fetchFromGitHub, conveyor-core, conveyor-nix-documentation }:
+{ stdenv, fetchFromGitHub, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
-  bare-name="conveyor-stack-documentation";
-  version = "0.1.0-PRE";
-  name = "${bare-name}-${version}";
+  domain="dogfoodsoftware.com";
+  bare_name="conveyor-stack-documentation";
+  version = "0.1pre";
+  name = "${bare_name}-${version}";
 
   home = builtins.getEnv "HOME";
 
-  test_path = builtins.toPath home + "/playground/dogfoodsoftware.com/${bare-name}";
+  test_path = builtins.toPath home + "/playground/${domain}/${bare_name}";
   src = if builtins.pathExists test_path
     then test_path
     else fetchFromGitHub {
       owner = "DogFoodSoftware";
-      repo = "${bare-name}";
+      repo = "${bare_name}";
       # These values are bogus.
       rev =  "155cc95b2e3fc242f66cf23c45218bb70e0cc131";
       sha256 = "18x2rmdb64kzd8bnh3sfyyfla8yvhs8cz7d755277p01jcljlp6v";
     };
 
-  buildInputs = [ conveyor-core ];
-
   phases = [ "installPhase" ];
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh
 
   installPhase = ''
-    INSTALL_DIR=$out/$name
+    source $install_lib
 
-    if [[ $test_path == $src ]]; then
-      mkdir -p $out
-      ln -s $src $INSTALL_DIR
-    else
-      mkdir -p $INSTALL_DIR
-      cp -a $src/* $INSTALL_DIR
-    fi
+    conveyor_standard_install
 
-    # For now, we manually finagle the documentation database. In
-    # future, this will be done with something like:
-    #
-    # con POST /documentation/</organizations relative ID>[<optional sub dir>] action=mount
-    # con PUT /documentation/</organizations relative ID>[<optional sub dir>] '{ ... patch spec }'
-    function link_docs() {
-      local SOURCE_DIR="$1"
-      local TARGET_DIR="$2"
-
-      cd "$SOURCE_DIR"
-
-      for i in `ls $DIR`; do
-        if [[ -d $i ]]; then
-	  mkdir -p "$TARGET_DIR/$i"
-	  link_docs "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
-	else
-	  rm -f "$TARGET_DIR/$i"
-	  ln -s "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
-	fi
-      done
-    };
-
-    link_docs "$INSTALL_DIR/documentation" "${home}/.conveyor/data/dogfoodsoftware.com/conveyor-core/documentation"
+    link_docs "$INSTALL_DIR/documentation" "${home}/.conveyor/data/${domain}/${bare_name}/documentation"
   '';
 }

@@ -1,4 +1,5 @@
 source $stdenv/setup 1
+source $install_lib
 
 PATH=$perl/bin:$PATH
 
@@ -35,3 +36,4 @@ patchelf --shrink-rpath "$f"
 $INSTALL_DIR/scripts/mysql_install_db --basedir=$INSTALL_DIR --datadir=$DATA_DIR
 
 ln -s $INSTALL_DIR/bin $out/bin
+make_runtime_link

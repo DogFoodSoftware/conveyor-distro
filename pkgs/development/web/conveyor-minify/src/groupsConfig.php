@@ -35,13 +35,22 @@ else { # Not 'localhost'
     $domain = $host_bits[count($host_bits) - 2].'.'.
         $host_bits[count($host_bits) -1];
 }
-$minify_config_file = "/home/user/.conveyor/runtime/$domain/website/conf/minify.php";
+$minify_config_file = "/home/user/.conveyor/runtime/$domain/$domain/conf/minify.php";
+error_log("including: $minify_config_file");
 $minify_config = null;
 if (file_exists($minify_config_file)) {
+    error_log("including...");
     $minify_config = include $minify_config_file;
+    error_log("good? ".(!empty($minify_config)));
+    
+    ob_start();                    // start buffer capture
+    var_dump( $minify_config );           // dump the values
+    $contents = ob_get_contents(); // put the buffer into a variable
+    ob_end_clean();                // end capture
+    error_log( $contents );
 }
 else {
-    error_log("Did not find expected minify config file: '$minify_config_file'; \$site: '$site'");
+    error_log("Did not find expected minify config file: '$minify_config_file'");
     return;
 }
 

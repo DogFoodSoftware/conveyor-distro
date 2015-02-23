@@ -1,9 +1,9 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   version = "0.10.13";
-  bare-name = "conveyor-icanhaz";
-  name = "${bare-name}-${version}";
+  bare_name = "conveyor-icanhaz";
+  name = "${bare_name}-${version}";
 
   src = fetchurl {
     url = "https://github.com/HenrikJoreteg/ICanHaz.js/raw/master/ICanHaz.js";
@@ -12,13 +12,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
-  bare_name = bare-name;
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh
 
   installPhase = ''
-    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/$bare_name
+    source $install_lib
 
-    mkdir -p $INSTALL_DIR
-    cp -a $src $INSTALL_DIR/ICanHaz.js
+    conveyor_standard_install
   ''; 
 
   meta = with stdenv.lib; {

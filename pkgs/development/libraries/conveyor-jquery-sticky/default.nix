@@ -1,9 +1,9 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   version = "1.0.1";
-  bare-name = "conveyor-jquery-sticky";
-  name = "${bare-name}-${version}";
+  bare_name = "conveyor-jquery-sticky";
+  name = "${bare_name}-${version}";
 
   git-version = "5158fec61b0b144f388b055576323b575bcec8d0";
 
@@ -14,13 +14,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
-  bare_name = bare-name;
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh
 
   installPhase = ''
-    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/$bare_name
+    source $install_lib
 
-    mkdir -p $INSTALL_DIR
-    cp -a $src $INSTALL_DIR/jquery.sticky.js
+    conveyor_standard_install
   ''; 
 
   meta = with stdenv.lib; {

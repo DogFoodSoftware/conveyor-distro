@@ -1,7 +1,10 @@
-{ stdenv, nodejs }:
+{ stdenv, nodejs, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
-  name = "conveyor-less";
+  domain = "dogfoodsoftware.com";
+  bare_name = "conveyor-less";
+  version = "0.1pre";
+  name = "${bare_name}-${version}";
 
   buildInputs = [ nodejs ];
 
@@ -9,18 +12,14 @@ stdenv.mkDerivation rec {
 
   home = builtins.getEnv "HOME";
 
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
+
   installPhase = ''
-    # Always create package context to avoid name collisions.
-    INSTALL_DIR=$out/conveyor-less
+    source $install_lib
 
-    mkdir -p $INSTALL_DIR
-    cd $INSTALL_DIR
-
-    # Seems a little silly, but keeps our vars pure. Actually, not
-    # sure what the best nix-ish approach is. In any case...
-
+    conveyor_standard_install
     # Need to define 'HOME' so npm can find the '.npm' dir, which
-    #  defines the packages, like 'less'.
+    # defines the packages, like 'less'.
     export HOME="$home"
     npm install less
 

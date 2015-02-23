@@ -1,15 +1,6 @@
 # Nix builder script; no '#!'
 source $stdenv/setup 1
-
-INSTALL_DIR=$out/conveyor/${domain_name}/${bare_name}
-
-if [[ "$src" == "$test_path" ]]; then
-    mkdir -p `dirname $INSTALL_DIR`
-    ln -s $src $INSTALL_DIR
-else 
-    mkdir -p $INSTALL_DIR
-    cp -a $src/* $INSTALL_DIR
-fi
+source $install_lib
 
 CONVEYOR_CORE_DATA="$home/.conveyor/data/dogfoodsoftware.com/${bare_name}"
 CC_DATABASES="$CONVEYOR_CORE_DATA/databases"
@@ -17,6 +8,8 @@ CC_DOCUMENTATION="$CONVEYOR_CORE_DATA/documentation"
 for DIR in "$home/.conveyor" \
            "$home/.conveyor/data" \
            "$home/.conveyor/data/dogfoodsoftware.com" \
+           "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache" \
+           "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc" \
            "$CONVEYOR_CORE_DATA" \
            "$CC_DATABASES" \
            "$CC_DOCUMENTATION"; do
@@ -24,13 +17,11 @@ for DIR in "$home/.conveyor" \
     # we build from the bottom up, the 'create parents' effect is not
     # necessary.
     if [ ! -d "$DIR" ]; then
-	mkdir "$DIR"
+        mkdir "$DIR"
     fi
 done
 
-echo "Linking nix profile into conveyor runtime..."
-rm -f $home/.conveyor/runtime
-ln -s $home/.nix-profile/conveyor $home/.conveyor/runtime
+standard_conveyor_install
 
 if [ ! -f "$home/.conveyor/host-id" ]; then
     # TODO: Cheating! 'uuidgen' not part of the nixpkgs at this time.
@@ -134,4 +125,4 @@ done
 mkdir $out/bin
 ln -s $INSTALL_DIR/bin/con $out/bin/con
 
-# ln -s $INSTALL_DIR/conf/service-documentation.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
+ln -s $INSTALL_DIR/conf/service-hosts.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/

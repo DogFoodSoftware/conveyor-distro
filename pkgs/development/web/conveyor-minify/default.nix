@@ -1,7 +1,10 @@
-{ stdenv, fetchFromGitHub }:
+{ stdenv, fetchFromGitHub, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
-  name = "conveyor-minify";
+  domain = "dogfoodsoftware.com";
+  bare_name = "conveyor-minify";
+  version = "2.1.7.4";
+  name = "${bare_name}-${version}";
 
   src = fetchFromGitHub {
     owner = "mrclay";
@@ -16,12 +19,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
-  installPhase = ''
-    # Always create package context to avoid name collisions.
-    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/conveyor-minify
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
 
-    mkdir -p $INSTALL_DIR
-    cp -a $src/* $INSTALL_DIR
+  installPhase = ''
+    source $install_lib
+
+    conveyor_install_lib
     
     for i in `ls $minify_src`; do
       chmod u+w $INSTALL_DIR/min/$i
@@ -37,7 +40,7 @@ stdenv.mkDerivation rec {
     ln -s $INSTALL_DIR/conf/minify.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
 
     mkdir -p $home/.conveyor/data/dogfoodsoftware.com/conveyor-minify/cache;
-  ''; 
+  '';
 
   meta = {
     description = "PHP service for dynamically minified CSS and JS";

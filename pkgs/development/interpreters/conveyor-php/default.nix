@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, gcc, perl, openssl, libiconv, gettext, zlib, readline, ncurses, libxslt, libmcrypt, libxml2, libpng, libjpeg, freetype, curl, icu, gdbm, db4, libXpm, imagemagick, bzip2, cacert, conveyor-apache, conveyor-mysql }:
+{ stdenv, fetchurl, gcc, perl, openssl, libiconv, gettext, zlib, readline, ncurses, libxslt, libmcrypt, libxml2, libpng, libjpeg, freetype, curl, icu, gdbm, db4, libXpm, imagemagick, bzip2, cacert, conveyor-apache, conveyor-mysql, conveyor-core, conveyor-install-lib }:
 
 let
   home = builtins.getEnv "HOME";
@@ -35,6 +35,8 @@ stdenv.mkDerivation rec {
   gettext_home = gettext;
   
   buildInputs = [ gcc openssl db4 zlib ncurses libxml2 libpng libjpeg freetype curl libmcryptOverride libxslt libiconv gdbm libXpm gettext imagemagick icu bzip2 readline conveyor-apache conveyor-mysql ];
+
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
 
   configureFlags = ["--enable-calendar"
 		    "--disable-cgi"

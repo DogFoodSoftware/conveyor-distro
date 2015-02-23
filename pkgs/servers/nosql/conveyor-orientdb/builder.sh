@@ -1,4 +1,5 @@
 source $stdenv/setup 1
+source $install_lib
 
 INSTALL_DIR="$out/conveyor/${domain_name}/${bare_name}"
 PHP_CLIENT_DIR="$INSTALL_DIR/php-orient"
@@ -96,3 +97,4 @@ export COMPOSER_BIN_DIR="$COMPOSER_DATA/vendor/bin"
 # The 'cacert-bundle.crt' loaded by PHP is conditioned on HOME.
 HOME=$home && php "$COMPOSER" --no-dev install
 
+make_runtime_link

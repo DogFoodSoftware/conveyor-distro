@@ -1,4 +1,5 @@
 source $stdenv/setup 1
+source $install_lib
 
 DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com/"
 CONVEYOR_CORE_RUNTIME="$DFS_RUNTIME/conveyor-core"
@@ -12,13 +13,15 @@ PATH=$perl/bin:$PATH
 tar xjf $src
 
 cd httpd-*
-echo "Configuring..."
+qecho "Configuring..."
 configureFlags="--prefix=$APACHE_INSTALL_DIR $configureFlags"
 ./configure $configureFlags
-echo "Compiling..."
+qecho "Compiling..."
 make
-echo "Installing..."
+qecho "Installing..."
 make install
+
+make_runtime_link
 
 # Set up the static Conveyor-Stack configuration for Apache.
 cd $APACHE_INSTALL_DIR
@@ -46,11 +49,7 @@ cp $httpdMagic ./conf/magic
 # from the environment used to launch nix), the 'home' is an argument
 # provided by the nix installation expression.
 DATA_DIR=$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/
-# Note, the data dir may already exist; for instance, the package was
-# deleted then re-installed from nix.
-mkdir -p $DATA_DIR
-# These three directories are refenced by the httpd.conf file.
-mkdir -p $DATA_DIR/conf-inc
+# TODO: '$DATA_DIR' and '$DATA_DIR/conf-inc' are created by 'conveyor-core'.
 mkdir -p $DATA_DIR/misc # What's this for?
 mkdir -p $DATA_DIR/ssl
 mkdir -p $DATA_DIR/htdocs

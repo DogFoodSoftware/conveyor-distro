@@ -1,9 +1,9 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
   version = "2.1.1";
-  bare-name = "conveyor-jquery";
-  name = "${bare-name}-${version}";
+  bare_name = "conveyor-jquery";
+  name = "${bare_name}-${version}";
 
   src = fetchurl {
     url = "http://code.jquery.com/jquery-${version}.js";
@@ -12,13 +12,12 @@ stdenv.mkDerivation rec {
 
   phases = [ "installPhase" ];
 
-  bare_name = bare-name;
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
 
   installPhase = ''
-    INSTALL_DIR=$out/conveyor/dogfoodsoftware.com/$bare_name
+    source $install_lib
 
-    mkdir -p $INSTALL_DIR
-    cp -a $src $INSTALL_DIR/jquery-${version}.js
+    standard_conveyor_install
   ''; 
 
   meta = with stdenv.lib; {
