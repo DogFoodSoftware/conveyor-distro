@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
     };
 
   install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
-  builder = ./builder.sh
+  builder = ./builder.sh;
 
   # The 'orientdb' script needs 'ps', 'grep', 'awk', and 'java'.
   buildInputs = [ conveyor-install-lib ];
