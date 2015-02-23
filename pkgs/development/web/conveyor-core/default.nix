@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
       owner = "DogFoodSoftware";
       repo = "${bare_name}";
       rev =  "18761dc8c66d7c2641d4e7e6c37174f5ce45103a";
-      sha256 = "64981aadb88e6c53ac513fcecbfc9af9aa4f65d1fe4a401bccf08bb4e12f9e51";
+      sha256 = "15r83dl2vda5didmqry8j0zrbs47wfd474668dfxayhcx58fnwhm";
     };
 
   install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
