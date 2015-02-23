@@ -3,7 +3,7 @@
 stdenv.mkDerivation rec {
   inherit perl;
 
-  domain_name = "dogfoodsoftware.com";
+  domain = "dogfoodsoftware.com";
   bare_name = "conveyor-apache";
   version = "2.2.29";
   name = "${bare_name}-${version}";
