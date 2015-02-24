@@ -2,7 +2,7 @@ function standard_conveyor_install() {
     set_install_dir
 
     if [[ $test_path == $src ]]; then
-      mkdir -p $out/$domain
+      mkdir -p `dirname $INSTALL_DIR`
       ln -s $src $INSTALL_DIR
     else
       mkdir -p $INSTALL_DIR
@@ -15,7 +15,7 @@ function standard_conveyor_install() {
 function make_runtime_link() {
     set_install_dir
 
-    if [ ! -d "$INSTALL_DIR" ]; then
+    if [ ! -d "$INSTALL_DIR" ] && [ ! -L "$INSTALL_DIR" ] ; then
 	echo "Conveyor package improperly laid out." >&2
 	exit 1
     fi
@@ -38,7 +38,7 @@ function set_install_dir() {
 	fi
     done
     
-    INSTALL_DIR="$out/$domain/$bare_name";
+    INSTALL_DIR="$out/conveyor/$domain/$bare_name";
 }
 
 # For now, we manually finagle the documentation database. In future, this
