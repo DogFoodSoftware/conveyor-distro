@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     source $install_lib
 
-    conveyor_standard_install
+    standard_conveyor_install
     
     for i in `ls $minify_src`; do
       chmod u+w $INSTALL_DIR/min/$i
