@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
 
   home = builtins.getEnv "HOME";
 
-  install_lib = conveyor-install-lib + /conveyor-install-lib.sh
+  install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
 
   installPhase = ''
     source $install_lib
