@@ -5,7 +5,7 @@ PATH=$perl/bin:$PATH
 
 tar xzf $src
 
-INSTALL_DIR="$out/conveyor/${domain}/${bare_name}"
+set_install_dir
 
 cd mysql-*
 cmake -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR
