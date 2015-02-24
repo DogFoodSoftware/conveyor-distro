@@ -5,7 +5,7 @@ DFS_RUNTIME="$home/.conveyor/runtime/dogfoodsoftware.com"
 CONVEYOR_CORE_RUNTIME="$DFS_RUNTIME/conveyor-core"
 source $CONVEYOR_CORE_RUNTIME/runnable/lib/shell-echo.sh
 
-PROJECT_HOME="$out/conveyor/${domain_name}/${bare_name}"
+PROJECT_HOME="$out/conveyor/${domain}/${bare_name}"
 APACHE_INSTALL_DIR="$PROJECT_HOME/runnable"
 
 PATH=$perl/bin:$PATH
