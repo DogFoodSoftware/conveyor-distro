@@ -1,7 +1,7 @@
 source $stdenv/setup 1
 source $install_lib
 
-INSTALL_DIR="$out/conveyor/${domain_name}/${bare_name}"
+INSTALL_DIR="$out/conveyor/${domain}/${bare_name}"
 PHP_CLIENT_DIR="$INSTALL_DIR/php-orient"
 DATA_DIR="$home/.conveyor/data/dogfoodsoftware.com/conveyor-orientdb"
 

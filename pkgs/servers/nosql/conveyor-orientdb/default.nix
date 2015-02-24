@@ -2,7 +2,7 @@
 conveyor-composer, conveyor-php, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
-  domain_name = "dogfoodsoftware.com";
+  domain = "dogfoodsoftware.com";
   odb_version = "2.0";
   wrapper_version="-3";
   version="${odb_version}${wrapper_version}";

@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
   inherit perl;
   inherit home test_path;
 
-  domain_name = "dogfoodsoftware.com";
+  domain = "dogfoodsoftware.com";
   bare_name = "conveyor-php";
   version = "5.6.5";
   name = "${bare_name}-${version}";
