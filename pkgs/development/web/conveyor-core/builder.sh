@@ -125,4 +125,5 @@ done
 mkdir $out/bin
 ln -s $INSTALL_DIR/bin/con $out/bin/con
 
+rm -f $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/service-hosts.httpd.conf
 ln -s $INSTALL_DIR/conf/service-hosts.httpd.conf $home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/
