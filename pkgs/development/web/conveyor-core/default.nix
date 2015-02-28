@@ -3,8 +3,6 @@
 stdenv.mkDerivation rec {
   domain = "dogfoodsoftware.com";
   bare_name = "conveyor-core";
-  version = "0.1.10pre";
-  name = "${bare_name}-${version}";
 
   home = builtins.getEnv "HOME";
   
@@ -17,6 +15,12 @@ stdenv.mkDerivation rec {
       rev =  "18761dc8c66d7c2641d4e7e6c37174f5ce45103a";
       sha256 = "15r83dl2vda5didmqry8j0zrbs47wfd474668dfxayhcx58fnwhm";
     };
+
+  distro-version = "0.1.10pre";
+  version = if test_path == src
+    then "9999"
+    else "${distro-version}";
+  name = "${bare_name}-${version}";
 
   install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
   builder = ./builder.sh;
