@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     source $install_lib
 
-    conveyor_standard_install
+    standard_conveyor_install
     # Need to define 'HOME' so npm can find the '.npm' dir, which
     # defines the packages, like 'less'.
     export HOME="$home"

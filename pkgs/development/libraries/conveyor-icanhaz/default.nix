@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     source $install_lib
 
-    conveyor_standard_install
+    standard_conveyor_install
   ''; 
 
   meta = with stdenv.lib; {

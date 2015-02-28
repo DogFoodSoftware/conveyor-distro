@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     source $install_lib
 
-    conveyor_standard_install
+    standard_conveyor_install
 
     link_docs "$INSTALL_DIR/documentation" "${home}/.conveyor/data/${domain}/${bare_name}/documentation"
   '';
