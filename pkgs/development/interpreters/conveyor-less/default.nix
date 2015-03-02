@@ -17,7 +17,11 @@ stdenv.mkDerivation rec {
   installPhase = ''
     source $install_lib
 
-    standard_conveyor_install
+    set_install_dir
+
+    mkdir -p $INSTALL_DIR
+    cd $INSTALL_DIR
+
     # Need to define 'HOME' so npm can find the '.npm' dir, which
     # defines the packages, like 'less'.
     export HOME="$home"
@@ -25,6 +29,8 @@ stdenv.mkDerivation rec {
 
     mkdir $out/bin
     ln -s $INSTALL_DIR/node_modules/less/bin/lessc $out/bin/lessc
+
+    make_runtime_link
   ''; 
 
   meta = {

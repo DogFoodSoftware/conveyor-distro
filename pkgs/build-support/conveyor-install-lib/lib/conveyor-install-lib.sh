@@ -15,8 +15,8 @@ function standard_conveyor_install() {
 function make_runtime_link() {
     set_install_dir
 
-    if [ ! -d "$INSTALL_DIR" ] && [ ! -L "$INSTALL_DIR" ] ; then
-	echo "Conveyor package improperly laid out." >&2
+    if [ ! -d "$INSTALL_DIR" ] && [ ! -L "$INSTALL_DIR" ]; then
+	echo "Did not find expected installation dir or link '$INSTALL_DIR'." >&2
 	exit 1
     fi
 
