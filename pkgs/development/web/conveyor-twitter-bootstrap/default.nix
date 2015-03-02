@@ -18,11 +18,12 @@ stdenv.mkDerivation rec {
   phases = [ "installPhase" ];
 
   install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
+  home = builtins.getEnv "HOME";
 
   installPhase = ''
     source $install_lib
 
-    conveyor_standard_lib
+    standard_conveyor_install
   ''; 
 
   meta = {
