@@ -13,9 +13,10 @@ if ($host == 'localhost' || preg_match('/(\d{1,3}\.){2}\d{1,3}/', $host)) {
     $default_site_conf = null;
     foreach ($file_list as $file) {
         $file = basename($file);
-        if (preg_match('/^([\w\.-]+\.([a-z]+))\.httpd\.conf$/', $file)) {
+        if (preg_match('/^site-([\w\.-]+\.([a-z]+))\.httpd\.conf$/', $file, $matches)) {
             if ($default_site_conf == null) {
                 $default_site_conf = $file;
+                $domain = $matches[1];
             }
             else {
                 error_log("Multiple default sites found. Please prune to single default.");
@@ -24,11 +25,8 @@ if ($host == 'localhost' || preg_match('/(\d{1,3}\.){2}\d{1,3}/', $host)) {
         }
     }
     if (empty($default_site_conf)) {
-        error_log("Did not find default domain.");
+        error_log("Did not find default site.");
     }
-
-    $domain = 
-        substr($default_site_conf, 0, strlen($default_site_conf) - 11);
 }
 else { # Not 'localhost'
     $host_bits = explode('.', $host);
