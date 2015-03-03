@@ -1,6 +1,7 @@
-{ stdenv, fetchurl, conveyor-core, conveyor-install-lib }:
+{ stdenv, fetchurl, perl, conveyor-core, conveyor-install-lib }:
 
 stdenv.mkDerivation rec {
+  domain = "dogfoodsoftware.com";
   version = "2.1.1";
   bare_name = "conveyor-jquery";
   name = "${bare_name}-${version}";
@@ -13,6 +14,8 @@ stdenv.mkDerivation rec {
   phases = [ "installPhase" ];
 
   install_lib = conveyor-install-lib + /conveyor-install-lib.sh;
+  home = builtins.getEnv "HOME";
+  buildInputs = [ perl ];
 
   installPhase = ''
     source $install_lib

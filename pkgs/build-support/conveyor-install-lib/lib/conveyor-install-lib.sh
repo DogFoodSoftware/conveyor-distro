@@ -6,7 +6,16 @@ function standard_conveyor_install() {
       ln -s $src $INSTALL_DIR
     else
       mkdir -p $INSTALL_DIR
-      cp -a $src/* $INSTALL_DIR
+      if [ -d $src ]; then
+	  cp -a $src/* $INSTALL_DIR
+      elif [ -f $src ]; then
+	  file=`basename $src`
+	  file=`echo $file | perl -pe 's/\w+-//'`
+	  cp $src $INSTALL_DIR/$file
+      else
+	  echo "Could not determine source to install." >&2
+	  exit 1
+      fi
     fi
 
     make_runtime_link

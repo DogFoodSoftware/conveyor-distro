@@ -48,17 +48,17 @@ rec {
   };
 
   conveyor-jquery = import ./pkgs/development/libraries/conveyor-jquery {
-    inherit (pkgs) stdenv fetchurl;
+    inherit (pkgs) stdenv fetchurl perl;
     inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-jquery-sticky = import ./pkgs/development/libraries/conveyor-jquery-sticky {
-    inherit (pkgs) stdenv fetchurl;
+    inherit (pkgs) stdenv fetchurl perl;
     inherit conveyor-core conveyor-install-lib;
   };
 
   conveyor-icanhaz = import ./pkgs/development/libraries/conveyor-icanhaz {
-    inherit (pkgs) stdenv fetchurl;
+    inherit (pkgs) stdenv fetchurl perl;
     inherit conveyor-core conveyor-install-lib;
   };
 
