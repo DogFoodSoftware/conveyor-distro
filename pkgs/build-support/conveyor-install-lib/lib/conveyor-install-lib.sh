@@ -59,15 +59,19 @@ function link_docs() {
     local SOURCE_DIR="$1"
     local TARGET_DIR="$2"
 
-    cd "$SOURCE_DIR"
+    pushd "$SOURCE_DIR"
 
-    for i in `ls $DIR`; do
+    for i in `ls .`; do
         if [[ -d $i ]]; then
-	    mkdir "$TARGET_DIR/$i"
+	    if [[ ! -d "$TARGET_DIR/$i" ]]; then
+		mkdir "$TARGET_DIR/$i"
+	    fi
 	    link_docs "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
 	else
-	    rm "$TARGET_DIR/$i"
+	    rm -f "$TARGET_DIR/$i"
 	    ln -s "$SOURCE_DIR/$i" "$TARGET_DIR/$i"
 	fi
     done
+
+    popd
 }

@@ -3,7 +3,7 @@
 stdenv.mkDerivation rec {
   domain = "dogfoodsoftware.com";
   bare_name = "conveyor-nix-documentation";
-  version = "0.1.4pre";
+  version = "0.1.8pre";
   name = "${bare_name}-${version}";
 
   home = builtins.getEnv "HOME";
