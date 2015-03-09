@@ -68,6 +68,11 @@ rec {
     inherit conveyor-core conveyor-install-lib;
   };
 
+  conveyor-pest = import ./pkgs/development/libraries/conveyor-pest {
+    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit conveyor-install-lib;
+  };
+
   conveyor-twitter-bootstrap = import ./pkgs/development/web/conveyor-twitter-bootstrap {
     inherit (pkgs) stdenv fetchFromGitHub;# lessc closurecompiler;
     inherit conveyor-core conveyor-install-lib;
