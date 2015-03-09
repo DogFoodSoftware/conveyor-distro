@@ -53,6 +53,11 @@ rec {
     inherit (pkgs.xlibs) libXpm;
   };
 
+  conveyor-phpunit = import ./pkgs/development/libraries/conveyor-phpunit {
+    inherit (pkgs) stdenv fetchurl;
+    inherit conveyor-install-lib;
+  };
+
   conveyor-less = import ./pkgs/development/interpreters/conveyor-less {
     inherit (pkgs) stdenv nodejs;
     inherit conveyor-core conveyor-install-lib;
