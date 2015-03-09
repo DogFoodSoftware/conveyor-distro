@@ -14,6 +14,11 @@ rec {
     inherit conveyor-install-lib;
   };
 
+  conveyor-workflow = import ./pkgs/development/libraries/conveyor-workflow {
+    inherit (pkgs) stdenv fetchFromGitHub;
+    inherit conveyor-install-lib;
+  };
+
   conveyor-apache = import ./pkgs/servers/http/conveyor-apache {
     inherit (pkgs) stdenv fetchurl pkgconfig gcc openssl zlib perl;
     inherit conveyor-core conveyor-install-lib;
