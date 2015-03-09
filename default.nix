@@ -2,6 +2,7 @@
 
 let
   pkgs = import <nixpkgs> { inherit system; };
+  linuxPackages = pkgs.linuxPackages;
 in
 rec {
   conveyor-install-lib = import ./pkgs/build-support/conveyor-install-lib {
@@ -26,6 +27,11 @@ rec {
   conveyor-composer = import ./pkgs/development/misc/conveyor-composer {
     inherit (pkgs) stdenv fetchurl;
     inherit conveyor-core conveyor-install-lib;
+  };
+
+  conveyor-arangodb = import ./pkgs/servers/nosql/conveyor-arangodb {
+    inherit (pkgs) stdenv fetchurl readline openssl go;
+    inherit conveyor-install-lib;
   };
 
   conveyor-orientdb = import ./pkgs/servers/nosql/conveyor-orientdb {
@@ -85,9 +91,5 @@ rec {
   conveyor-stack-documentation = import ./pkgs/data/documentation/conveyor-stack-documentation {
     inherit (pkgs) stdenv fetchFromGitHub;
     inherit conveyor-core conveyor-install-lib;
-  };
-
-  conveyor-environments = import ./pkgs/applications/networking/misc/conveyor-environments {
-    inherit (pkgs) stdenv fetchzip;
   };
 }
