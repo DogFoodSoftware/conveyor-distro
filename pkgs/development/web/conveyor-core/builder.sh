@@ -114,13 +114,7 @@ rm -f $CC_DOCUMENTATION/runtime
 ln -s $RUNTIME $CC_DOCUMENTATION/runtime
 # TODO: replace this with documentation mount request; also, make
 # recursive, creating hard dirs and soft file links.
-mkdir -p $CC_DOCUMENTATION/help
-for i in `ls $INSTALL_DIR/documentation/help`; do
-    if [ -f "$INSTALL_DIR/documentation/help/$i" ]; then
-	rm -f "$CC_DOCUMENTATION/help/$i"
-	ln -s "$INSTALL_DIR/documentation/help/$i" "$CC_DOCUMENTATION/help/$i"
-    fi
-done
+link_docs "$INSTALL_DIR/documentation" "${home}/.conveyor/data/${domain}/${bare_name}/documentation"
 
 mkdir $out/bin
 ln -s $INSTALL_DIR/bin/con $out/bin/con
